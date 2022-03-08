@@ -49,13 +49,4 @@ public record UserService(UserRepository userRepository) {
 
         return !userRepository.existsById(userId);
     }
-
-    public Boolean isContributor(Long userId) {
-        User contributor = userRepository.getById(userId);
-        return contributor.getContributor();
-    }
-    public Boolean isAdmin(Long userId) {
-        User admin = userRepository.getById(userId);
-        return admin.getAdmin();
-    }
 }
