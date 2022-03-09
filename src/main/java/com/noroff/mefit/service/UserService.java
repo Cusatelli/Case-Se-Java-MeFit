@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public record UserService(UserRepository userRepository) {
 
-    public List<User> getUsers() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
@@ -33,7 +33,7 @@ public record UserService(UserRepository userRepository) {
         return userRepository.save(user);
     }
 
-    public Boolean deleteUser(Long userId) {
+    public Boolean delete(Long userId) {
         if (!userRepository.existsById(userId)) {
             return false;
         }

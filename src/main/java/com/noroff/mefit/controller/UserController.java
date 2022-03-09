@@ -14,11 +14,11 @@ public record UserController(UserService userService) {
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userService.getUsers();
+        return userService.getAll();
     }
 
     @PostMapping
-    public User create(@RequestBody User user) {
+    public User createUser(@RequestBody User user) {
         return userService.create(user);
     }
 
@@ -28,12 +28,12 @@ public record UserController(UserService userService) {
     }
 
     @PatchMapping("/{userId}")
-    public User update(@RequestBody User user, @PathVariable Long userId) {
+    public User updateUser(@RequestBody User user, @PathVariable Long userId) {
         return userService.update(user, userId);
     }
 
     @DeleteMapping("/{userId}")
-    public Boolean delete(@PathVariable Long userId) {
-        return userService.deleteUser(userId);
+    public Boolean deleteUser(@PathVariable Long userId) {
+        return userService.delete(userId);
     }
 }
