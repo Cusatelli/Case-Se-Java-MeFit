@@ -13,13 +13,13 @@ import java.util.List;
 public record UserController(UserService userService) {
 
     @GetMapping
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public List<User> getAllUsers() {
+        return userService.getAll();
     }
 
     @PostMapping
     public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+        return userService.create(user);
     }
 
     @GetMapping("/{userId}")
@@ -29,11 +29,11 @@ public record UserController(UserService userService) {
 
     @PatchMapping("/{userId}")
     public User updateUser(@RequestBody User user, @PathVariable Long userId) {
-        return userService.updateUser(user, userId);
+        return userService.update(user, userId);
     }
 
     @DeleteMapping("/{userId}")
-    public Boolean deleteCharacter(@PathVariable Long userId) {
-        return userService.deleteUser(userId);
+    public Boolean deleteUser(@PathVariable Long userId) {
+        return userService.delete(userId);
     }
 }

@@ -9,11 +9,11 @@ import java.util.List;
 @Service
 public record UserService(UserRepository userRepository) {
 
-    public List<User> getUsers() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public User createUser(User user) {
+    public User create(User user) {
         return userRepository.save(user);
     }
 
@@ -22,31 +22,23 @@ public record UserService(UserRepository userRepository) {
             return null;
         }
 
-        return userRepository.findById(userId).get();
+        return userRepository.findById(userId).orElse(null);
     }
 
-    public User updateUser(User user, Long userId) {
+    public User update(User user, Long userId) {
         if (!userRepository.existsById((userId))) {
             return null;
         }
-
-        User updatedUser = userRepository.getById(userId);
-        updatedUser.setFirstName(user.getFirstName());
-        updatedUser.setLastName(user.getLastName());
-        updatedUser.setPassword(user.getPassword());
-        updatedUser.setContributor(user.getContributor());
-        updatedUser.setAdmin(user.getAdmin());
-
-        return userRepository.save(updatedUser);
+        user.setId(userId);
+        return userRepository.save(user);
     }
 
-    public Boolean deleteUser(Long userId) {
+    public Boolean delete(Long userId) {
         if (!userRepository.existsById(userId)) {
             return false;
         }
 
         userRepository.deleteById(userId);
-
         return !userRepository.existsById(userId);
     }
 }
