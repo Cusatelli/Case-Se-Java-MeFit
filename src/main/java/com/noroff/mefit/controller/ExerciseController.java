@@ -14,11 +14,11 @@ public record ExerciseController(ExerciseService exerciseService) {
 
     @GetMapping
     public List<Exercise> getAllExercises() {
-        return exerciseService.getAllExercises();
+        return exerciseService.getAll();
     }
 
     @PostMapping
-    public Exercise create(@RequestBody Exercise exercise) {
+    public Exercise createExercise(@RequestBody Exercise exercise) {
         return exerciseService.create(exercise);
     }
 
@@ -28,12 +28,12 @@ public record ExerciseController(ExerciseService exerciseService) {
     }
 
     @PatchMapping("/{exerciseId}")
-    public Exercise update(@RequestBody Exercise exercise, @PathVariable Long exerciseId) {
+    public Exercise updateExercise(@RequestBody Exercise exercise, @PathVariable Long exerciseId) {
         return exerciseService.update(exercise, exerciseId);
     }
 
     @DeleteMapping("/{exerciseId}")
-    public Boolean delete(@PathVariable Long exerciseId) {
+    public Boolean deleteExercise(@PathVariable Long exerciseId) {
         return exerciseService.delete(exerciseId);
     }
 }

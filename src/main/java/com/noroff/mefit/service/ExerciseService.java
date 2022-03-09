@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public record ExerciseService(ExerciseRepository exerciseRepository) {
 
-    public List<Exercise> getAllExercises() {
+    public List<Exercise> getAll() {
         return exerciseRepository.findAll();
     }
 
@@ -30,7 +30,12 @@ public record ExerciseService(ExerciseRepository exerciseRepository) {
             return null;
         }
 
-        exercise.setId(exerciseRepository.getById(exerciseId).getId());
+        Exercise prevExercise = exerciseRepository.findById(exerciseId).orElse(null);
+        if(prevExercise == null) {
+            return null;
+        }
+
+        exercise.setId(prevExercise.getId());
         return exerciseRepository.save(exercise);
     }
 
