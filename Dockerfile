@@ -10,7 +10,7 @@ ENV SPRING_PROFILE production
 ENV DATABASE_URL ""
 ENV CLIENT_ID "client-id"
 ENV CLIENT_SECRET "client-secret"
-ENV DDL_AUTO "update"
+ENV DDL_AUTO "none"
 ENV APP_ORIGIN "http://localhost:3000"
 COPY --from=gradle /app/build/libs/*.jar /app/app.jar
 RUN chown -R 1000:1000 /app
