@@ -12,8 +12,8 @@ public record AddressService(AddressRepository addressRepository) {
         return addressRepository.findAll();
     }
 
-    public Address create(Address set) {
-        return addressRepository.save(set);
+    public Address create(Address address) {
+        return addressRepository.save(address);
     }
 
     public Address getById(Long setId) {
@@ -24,18 +24,18 @@ public record AddressService(AddressRepository addressRepository) {
         return addressRepository.findById(setId).orElse(null);
     }
 
-    public Address update(Address set, Long setId) {
+    public Address update(Address address, Long setId) {
         if (!addressRepository.existsById(setId)) {
             return null;
         }
 
-        Address prevSet = addressRepository.findById(setId).orElse(null);
-        if(prevSet == null) {
+        Address prevAddress = addressRepository.findById(setId).orElse(null);
+        if(prevAddress == null) {
             return null;
         }
 
-        set.setId(prevSet.getId());
-        return addressRepository.save(set);
+        address.setId(prevAddress.getId());
+        return addressRepository.save(address);
     }
 
     public Boolean delete(Long setId) {
