@@ -18,7 +18,7 @@ public record SetService(SetRepository setRepository) {
     }
 
     public Set getById(Long setId) {
-        if (!setRepository.existsById((setId))) {
+        if (!setRepository.existsById(setId)) {
             return null;
         }
 
@@ -26,7 +26,7 @@ public record SetService(SetRepository setRepository) {
     }
 
     public Set update(Set set, Long setId) {
-        if (!setRepository.existsById((setId))) {
+        if (!setRepository.existsById(setId)) {
             return null;
         }
 
@@ -36,7 +36,6 @@ public record SetService(SetRepository setRepository) {
         }
 
         set.setId(prevSet.getId());
-        //change exercise id as well
         set.setExercise(prevSet.getExercise());
         return setRepository.save(set);
     }

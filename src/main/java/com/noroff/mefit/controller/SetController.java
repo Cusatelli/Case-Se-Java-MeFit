@@ -17,7 +17,7 @@ public record SetController(SetService setService) {
     }
 
     @PostMapping
-    public Set createSets(@RequestBody Set set) {
+    public Set createSet(@RequestBody Set set) {
         return setService.create(set);
     }
 
