@@ -17,22 +17,22 @@ public record AddressController(AddressService addressService) {
     }
 
     @PostMapping
-    public Address createAddress(@RequestBody Address set) {
-        return addressService.create(set);
+    public Address createAddress(@RequestBody Address address) {
+        return addressService.create(address);
     }
 
-    @GetMapping("/{setId}")
-    public Address getAddressById(@PathVariable Long setId) {
-        return addressService.getById(setId);
+    @GetMapping("/{addressId}")
+    public Address getAddressById(@PathVariable Long addressId) {
+        return addressService.getById(addressId);
     }
 
-    @PatchMapping("/{setId}")
-    public Address updateAddress(@RequestBody Address set, @PathVariable Long setId) {
-        return addressService.update(set, setId);
+    @PatchMapping("/{addressId}")
+    public Address updateAddress(@RequestBody Address address, @PathVariable Long addressId) {
+        return addressService.update(address, addressId);
     }
 
-    @DeleteMapping("/{setId}")
-    public Boolean deleteAddress(@PathVariable Long setId) {
-        return addressService.delete(setId);
+    @DeleteMapping("/{addressId}")
+    public Boolean deleteAddress(@PathVariable Long addressId) {
+        return addressService.delete(addressId);
     }
 }
