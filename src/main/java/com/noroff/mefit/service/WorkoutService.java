@@ -15,7 +15,7 @@ public record WorkoutService(WorkoutRepository workoutRepository) {
     }
 
     public Workout getById(Long id) {
-        return workoutRepository.getById(id);
+        return workoutRepository.findById(id).orElse(null);
     }
 
     public Workout add(Workout workout) {
