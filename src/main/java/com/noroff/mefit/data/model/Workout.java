@@ -1,6 +1,5 @@
-package com.noroff.mefit.model;
+package com.noroff.mefit.data.model;
 
-import com.noroff.mefit.model.type.WorkoutType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,25 +11,24 @@ import javax.validation.constraints.NotNull;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter @Setter
 @Table(name = "workout", schema = "public")
 public class Workout {
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    @Getter @Setter
     private Long id;
 
-    @Getter @Setter
-    @Column(name = "name", nullable = false)
     @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @Getter @Setter
-    @Column(name = "type", nullable = false)
-    private WorkoutType type;
+    @NotNull
+    @Column(nullable = false)
+    private String type;
 
-    @Getter @Setter
-    @Column(name = "complete", nullable = false)
+    @NotNull
+    @Column(nullable = false)
     private Boolean complete;
 
     // TODO: Add Set Model Relationship.

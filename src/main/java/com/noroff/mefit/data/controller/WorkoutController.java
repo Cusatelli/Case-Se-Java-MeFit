@@ -1,7 +1,7 @@
-package com.noroff.mefit.controller;
+package com.noroff.mefit.data.controller;
 
-import com.noroff.mefit.model.Workout;
-import com.noroff.mefit.service.WorkoutService;
+import com.noroff.mefit.data.service.WorkoutService;
+import com.noroff.mefit.data.model.Workout;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
