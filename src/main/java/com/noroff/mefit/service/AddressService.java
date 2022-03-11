@@ -16,20 +16,20 @@ public record AddressService(AddressRepository addressRepository) {
         return addressRepository.save(address);
     }
 
-    public Address getById(Long setId) {
-        if (!addressRepository.existsById(setId)) {
+    public Address getById(Long addressId) {
+        if (!addressRepository.existsById(addressId)) {
             return null;
         }
 
-        return addressRepository.findById(setId).orElse(null);
+        return addressRepository.findById(addressId).orElse(null);
     }
 
-    public Address update(Address address, Long setId) {
-        if (!addressRepository.existsById(setId)) {
+    public Address update(Address address, Long addressId) {
+        if (!addressRepository.existsById(addressId)) {
             return null;
         }
 
-        Address prevAddress = addressRepository.findById(setId).orElse(null);
+        Address prevAddress = addressRepository.findById(addressId).orElse(null);
         if(prevAddress == null) {
             return null;
         }
@@ -38,12 +38,12 @@ public record AddressService(AddressRepository addressRepository) {
         return addressRepository.save(address);
     }
 
-    public Boolean delete(Long setId) {
-        if (!addressRepository.existsById(setId)) {
+    public Boolean delete(Long addressId) {
+        if (!addressRepository.existsById(addressId)) {
             return false;
         }
 
-        addressRepository.deleteById(setId);
-        return !addressRepository.existsById(setId);
+        addressRepository.deleteById(addressId);
+        return !addressRepository.existsById(addressId);
     }
 }
