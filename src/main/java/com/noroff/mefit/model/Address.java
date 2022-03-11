@@ -33,7 +33,6 @@ public class Address {
     private String addressLine3;
 
     @Getter @Setter
-    @Size(min = 1, max = 50)
     @Column(name = "postal_code")
     private String postalCode;
 
