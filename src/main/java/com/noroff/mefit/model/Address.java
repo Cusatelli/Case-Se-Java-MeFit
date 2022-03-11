@@ -21,17 +21,14 @@ public class Address {
     private Integer id;
 
     @Getter @Setter
-    @Size(min = 1, max = 50)
     @Column(name = "address_line_1")
     private String addressLine1;
 
     @Getter @Setter
-    @Size(min = 1, max = 50)
     @Column(name = "address_line_2")
     private String addressLine2;
 
     @Getter @Setter
-    @Size(min = 1, max = 50)
     @Column(name = "address_line_3")
     private String addressLine3;
 
