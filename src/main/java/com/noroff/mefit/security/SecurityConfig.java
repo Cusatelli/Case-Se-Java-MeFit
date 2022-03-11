@@ -1,13 +1,9 @@
 package com.noroff.mefit.security;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.web.AbstractRequestMatcherRegistry;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
@@ -18,7 +14,6 @@ import java.util.HashSet;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -32,21 +27,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
 
                 // Enable security for http requests
-                .authorizeRequests(authorize -> {
-                    authorize
-                            // Specify paths where public access is allowed
-                            .antMatchers("/.well-known/oas", "/.well-known/oas/*", "/.well-known/oas/**").permitAll()
-                            .antMatchers("/swagger-ui", "/swagger-ui/*", "/swagger-ui/**").permitAll()
+                .authorizeRequests(authorize -> authorize
+                        // Specify paths where public access is allowed
+                        .antMatchers("/v3/api-docs", "/v3/api-docs/*", "/v3/api-docs/**").permitAll()
+                        .antMatchers("/swagger-ui", "/swagger-ui/*", "/swagger-ui/**").permitAll()
 
-                            /*
-                             * Add urls here
-                             */
-                            .antMatchers("/user/**").hasAnyRole("MeFitt_User")
-                            .antMatchers("/security/admin").hasAnyRole("MeFitt_Admin")
+                        /*
+                         * Add urls here
+                         */
+                        .antMatchers("/user/**").hasAnyRole("MeFit_User")
+                        .antMatchers("/security/admin").hasAnyRole("MeFit_Admin")
 
-                            // All remaining paths require authentication
-                            .anyRequest().authenticated();
-                })
+                        // All remaining paths require authentication
+                        .anyRequest().authenticated())
 
                 // Configure OAuth2 Resource Server (JWT authentication)
                 .oauth2ResourceServer(oauth2 -> {
@@ -95,7 +88,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     // Enable JWT authentication and access control from JWT claims
                     oauth2.jwt().jwtAuthenticationConverter(authnConverter);
                 });
-
     }
-
 }
