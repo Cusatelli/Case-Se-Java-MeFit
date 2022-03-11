@@ -13,71 +13,55 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "profile", schema = "public")
+@Getter
+@Setter
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
+    @Size(min = 1, max = 10)
     @Column(name = "id")
     private Integer id;
 
-    @Getter @Setter
-    @Size(min = 1, max = 50)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private User userId;
 
-//    @Getter @Setter
-//    @Size(min = 1, max = 50)
 //    @Column(name = "goal_id")
 //    private Integer goalId;
 
-//    @Getter @Setter
-//    @Size(min = 1, max = 50)
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "address_id")
 //    @JsonInclude(JsonInclude.Include.NON_EMPTY)
 //    private Address addressId;
 
-//    @Getter @Setter
-//    @Size(min = 1, max = 50)
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "program_id")
 //    @JsonInclude(JsonInclude.Include.NON_EMPTY)
 //    private Program programId;
 
-//    @Getter @Setter
-//    @Size(min = 1, max = 50)
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "workout_id")
 //    @JsonInclude(JsonInclude.Include.NON_EMPTY)
 //    private Workout workoutId;
 
-    @Getter @Setter
-    @Size(min = 1, max = 50)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "set_id")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set setId;
 
-    @Getter @Setter
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 5)
     @Column(name = "weight")
     private Integer weight;
 
-    @Getter @Setter
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 3)
     @Column(name = "height")
     private Integer height;
 
-    @Getter @Setter
-    @Size(min = 1, max = 50)
     @Column(name = "medicalConditions")
     private String medicalConditions;
 
     @Getter @Setter
-    @Size(min = 1, max = 50)
     @Column(name = "disabilities")
     private String disabilities;
 }
