@@ -1,7 +1,7 @@
-package com.noroff.mefit.controller;
+package com.noroff.mefit.data.controller;
 
-import com.noroff.mefit.model.Profile;
-import com.noroff.mefit.service.ProfileService;
+import com.noroff.mefit.data.service.ProfileService;
+import com.noroff.mefit.data.model.Profile;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,6 @@ import java.util.List;
 @Tag(name = "Profile")
 @RequestMapping("/api/profile")
 public record ProfileController(ProfileService profileService) {
-
     @GetMapping
     public List<Profile> getAllProfiles() {
         return profileService.getAll();
@@ -28,8 +27,8 @@ public record ProfileController(ProfileService profileService) {
     }
 
     @PatchMapping("/{profileId}")
-    public Profile updateProfile(@RequestBody Profile profile, @PathVariable Long profileId) {
-        return profileService.update(profile, profileId);
+    public Profile updateProfile(@PathVariable Long profileId, @RequestBody Profile profile) {
+        return profileService.update(profileId, profile);
     }
 
     @DeleteMapping("/{profileId}")

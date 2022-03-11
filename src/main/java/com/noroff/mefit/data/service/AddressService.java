@@ -1,7 +1,7 @@
-package com.noroff.mefit.service;
+package com.noroff.mefit.data.service;
 
-import com.noroff.mefit.model.Address;
-import com.noroff.mefit.repository.AddressRepository;
+import com.noroff.mefit.data.model.Address;
+import com.noroff.mefit.data.repository.AddressRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

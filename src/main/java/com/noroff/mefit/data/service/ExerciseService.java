@@ -1,14 +1,13 @@
-package com.noroff.mefit.service;
+package com.noroff.mefit.data.service;
 
-import com.noroff.mefit.model.Exercise;
-import com.noroff.mefit.repository.ExerciseRepository;
+import com.noroff.mefit.data.model.Exercise;
+import com.noroff.mefit.data.repository.ExerciseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public record ExerciseService(ExerciseRepository exerciseRepository) {
-
     public List<Exercise> getAll() {
         return exerciseRepository.findAll();
     }
@@ -18,15 +17,15 @@ public record ExerciseService(ExerciseRepository exerciseRepository) {
     }
 
     public Exercise getById(Long userId) {
-        if (!exerciseRepository.existsById((userId))) {
+        if (!exerciseRepository.existsById(userId)) {
             return null;
         }
 
         return exerciseRepository.findById(userId).orElse(null);
     }
 
-    public Exercise update(Exercise exercise, Long exerciseId) {
-        if (!exerciseRepository.existsById((exerciseId))) {
+    public Exercise update(Long exerciseId, Exercise exercise) {
+        if (!exerciseRepository.existsById(exerciseId)) {
             return null;
         }
 

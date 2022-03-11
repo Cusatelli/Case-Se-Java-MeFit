@@ -1,4 +1,4 @@
-package com.noroff.mefit.model;
+package com.noroff.mefit.data.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -12,20 +12,17 @@ import javax.validation.constraints.Size;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 @Table(name = "profile", schema = "public")
-@Getter
-@Setter
 public class Profile {
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Size(min = 1, max = 10)
-    @Column(name = "id")
     private Integer id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private User userId;
+    private User user;
 
 //    @Column(name = "goal_id")
 //    private Integer goalId;
@@ -46,22 +43,20 @@ public class Profile {
 //    private Workout workoutId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "set_id")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set setId;
+    private Set set;
 
+    @Column
     @Size(min = 1, max = 5)
-    @Column(name = "weight")
     private Integer weight;
 
+    @Column
     @Size(min = 1, max = 3)
-    @Column(name = "height")
     private Integer height;
 
-    @Column(name = "medicalConditions")
+    @Column
     private String medicalConditions;
 
-    @Getter @Setter
-    @Column(name = "disabilities")
+    @Column
     private String disabilities;
 }

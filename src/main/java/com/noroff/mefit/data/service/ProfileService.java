@@ -1,7 +1,7 @@
-package com.noroff.mefit.service;
+package com.noroff.mefit.data.service;
 
-import com.noroff.mefit.model.Profile;
-import com.noroff.mefit.repository.ProfileRepository;
+import com.noroff.mefit.data.model.Profile;
+import com.noroff.mefit.data.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +24,8 @@ public record ProfileService(ProfileRepository profileRepository) {
         return profileRepository.findById(profileId).orElse(null);
     }
 
-    public Profile update(Profile profile, Long profileId) {
-        if (!profileRepository.existsById((profileId))) {
+    public Profile update(Long profileId, Profile profile) {
+        if (!profileRepository.existsById(profileId)) {
             return null;
         }
 
