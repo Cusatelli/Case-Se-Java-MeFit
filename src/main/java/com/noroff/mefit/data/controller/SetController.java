@@ -1,7 +1,7 @@
-package com.noroff.mefit.controller;
+package com.noroff.mefit.data.controller;
 
-import com.noroff.mefit.model.Set;
-import com.noroff.mefit.service.SetService;
+import com.noroff.mefit.data.service.SetService;
+import com.noroff.mefit.data.model.Set;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +27,8 @@ public record SetController(SetService setService) {
     }
 
     @PatchMapping("/{setId}")
-    public Set updateSet(@RequestBody Set set, @PathVariable Long setId) {
-        return setService.update(set, setId);
+    public Set updateSet(@PathVariable Long setId, @RequestBody Set set) {
+        return setService.update(setId, set);
     }
 
     @DeleteMapping("/{setId}")
