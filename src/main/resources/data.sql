@@ -129,3 +129,9 @@ VALUES (
            5,
            2
        );
+
+INSERT INTO public.program (name, category)
+VALUES (
+           'Dumbbell',
+           'Muscle building'
+       );
