@@ -1,15 +1,13 @@
-package com.noroff.mefit.service;
+package com.noroff.mefit.data.service;
 
-import com.noroff.mefit.model.Workout;
-import com.noroff.mefit.model.type.WorkoutType;
-import com.noroff.mefit.repository.WorkoutRepository;
+import com.noroff.mefit.data.model.Workout;
+import com.noroff.mefit.data.repository.WorkoutRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public record WorkoutService(WorkoutRepository workoutRepository) {
-
     public List<Workout> getAll() {
         return workoutRepository.findAll();
     }
@@ -23,7 +21,7 @@ public record WorkoutService(WorkoutRepository workoutRepository) {
         return this.workoutRepository.saveAndFlush(workout);
     }
 
-    public Workout add(Workout workout, WorkoutType workoutType) {
+    public Workout add(Workout workout, String workoutType) {
         if(workoutType != null) { workout.setType(workoutType); }
         return this.add(workout);
     }

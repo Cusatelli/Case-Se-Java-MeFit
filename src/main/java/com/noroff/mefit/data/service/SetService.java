@@ -1,8 +1,7 @@
-package com.noroff.mefit.service;
+package com.noroff.mefit.data.service;
 
-import com.noroff.mefit.model.Exercise;
-import com.noroff.mefit.model.Set;
-import com.noroff.mefit.repository.SetRepository;
+import com.noroff.mefit.data.model.Set;
+import com.noroff.mefit.data.repository.SetRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public record SetService(SetRepository setRepository) {
         return setRepository.findById(setId).orElse(null);
     }
 
-    public Set update(Set set, Long setId) {
+    public Set update(Long setId, Set set) {
         if (!setRepository.existsById(setId)) {
             return null;
         }

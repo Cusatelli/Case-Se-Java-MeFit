@@ -1,7 +1,7 @@
-package com.noroff.mefit.controller;
+package com.noroff.mefit.data.controller;
 
-import com.noroff.mefit.model.Exercise;
-import com.noroff.mefit.service.ExerciseService;
+import com.noroff.mefit.data.service.ExerciseService;
+import com.noroff.mefit.data.model.Exercise;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,6 @@ import java.util.List;
 @Tag(name = "Exercise")
 @RequestMapping("/api/exercise")
 public record ExerciseController(ExerciseService exerciseService) {
-
     @GetMapping
     public List<Exercise> getAllExercises() {
         return exerciseService.getAll();
@@ -28,8 +27,8 @@ public record ExerciseController(ExerciseService exerciseService) {
     }
 
     @PatchMapping("/{exerciseId}")
-    public Exercise updateExercise(@RequestBody Exercise exercise, @PathVariable Long exerciseId) {
-        return exerciseService.update(exercise, exerciseId);
+    public Exercise updateExercise(@PathVariable Long exerciseId, @RequestBody Exercise exercise) {
+        return exerciseService.update(exerciseId, exercise);
     }
 
     @DeleteMapping("/{exerciseId}")

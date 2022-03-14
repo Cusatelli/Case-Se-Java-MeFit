@@ -1,7 +1,7 @@
-package com.noroff.mefit.controller;
+package com.noroff.mefit.data.controller;
 
-import com.noroff.mefit.model.Address;
-import com.noroff.mefit.service.AddressService;
+import com.noroff.mefit.data.model.Address;
+import com.noroff.mefit.data.service.AddressService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ public record AddressController(AddressService addressService) {
     }
 
     @PatchMapping("/{addressId}")
-    public Address updateAddress(@RequestBody Address address, @PathVariable Long addressId) {
+    public Address updateAddress(@PathVariable Long addressId, @RequestBody Address address) {
         return addressService.update(address, addressId);
     }
 

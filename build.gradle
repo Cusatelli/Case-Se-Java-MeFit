@@ -32,18 +32,17 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.3.3'
 
     // Postgres -> Heroku
-    implementation 'org.apache.commons:commons-dbcp2:2.8.0'
-    implementation 'org.apache.commons:commons-csv:1.8'
+    implementation 'org.apache.commons:commons-dbcp2:2.9.0'
+    implementation 'org.apache.commons:commons-csv:1.9.0'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-    // security
+    // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-oauth2-resource-server'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
-
 
     // Tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

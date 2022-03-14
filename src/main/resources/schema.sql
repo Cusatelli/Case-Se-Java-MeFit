@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS public.exercise, public.user, public.workout CASCADE;
+DROP TABLE IF EXISTS public.exercise, public.user, public.workout, public.address, public.profile, public.set CASCADE;
 
 CREATE TABLE public.exercise (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
     description VARCHAR(200) NOT NULL DEFAULT (''),
     image VARCHAR(255),
-    name VARCHAR(50) NOT NULL DEFAULT (''),
+    name VARCHAR(50) NOT NULL,
     target_muscle_group VARCHAR(255),
     vid_link VARCHAR(255),
     PRIMARY KEY (id)
@@ -23,7 +23,36 @@ CREATE TABLE public.user (
 CREATE TABLE public.workout (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
     complete BOOLEAN NOT NULL DEFAULT FALSE,
-    name VARCHAR(50) NOT NULL DEFAULT (''),
-    type INT4 NOT NULL DEFAULT -1,
+    name VARCHAR(50) NOT NULL,
+    type VARCHAR NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.address (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+    address_line_1 VARCHAR NOT NULL,
+    address_line_2 VARCHAR,
+    address_line_3 VARCHAR,
+    city VARCHAR(70) NOT NULL,
+    country VARCHAR(70) NOT NULL,
+    postal_code VARCHAR(12) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.profile (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+    disabilities VARCHAR,
+    height INTEGER NOT NULL,
+    medical_conditions VARCHAR,
+    weight INTEGER NOT NULL,
+    set_id BIGINT,
+    user_id BIGINT,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.set (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+    exercise_repetition INTEGER NOT NULL,
+    exercise_id BIGINT,
     PRIMARY KEY (id)
 );
