@@ -19,9 +19,12 @@ public class Program {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @NotNull
+    @Size(max = 50)
+    @Column(nullable = false)
     private String name;
 
     @Column
+    @Size(max = 100)
     private String category;
 }
