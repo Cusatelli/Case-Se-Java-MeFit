@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "program", schema = "public")
+@Table(name = "program_workout", schema = "public")
 public class ProgramWorkout {
     @Id
     @Column

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Tag(name = "ProgramWorkout")
-@RequestMapping("/api/programWorkout")
+@Tag(name = "Program Workout")
+@RequestMapping("/api/program/workout")
 public record ProgramWorkoutController(ProgramWorkoutService programWorkoutService) {
     @GetMapping
     public List<ProgramWorkout> getAllProgramWorkouts() {
