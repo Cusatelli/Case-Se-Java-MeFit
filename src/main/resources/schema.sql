@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS public.exercise, public.user, public.workout, public.address, public.profile, public.set, public.program, public.goalworkout CASCADE;
+DROP TABLE IF EXISTS public.exercise, public.user, public.workout, public.address, public.profile, public.set, public.program, public.goal_workout CASCADE;
 
 CREATE TABLE public.exercise (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
