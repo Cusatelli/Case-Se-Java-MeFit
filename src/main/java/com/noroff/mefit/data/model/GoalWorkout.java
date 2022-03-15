@@ -28,7 +28,7 @@ public class GoalWorkout {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "workout_id")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Workout workoutId;
+    private Workout workout;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "goal_id")
