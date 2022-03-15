@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS public.exercise, public.user, public.workout, public.address, public.profile, public.set, public.program, public.goal CASCADE;
+DROP TABLE IF EXISTS public.exercise, public.user, public.workout, public.address, public.profile, public.set, public.program, public.goal, public.goal_workout CASCADE;
 
 CREATE TABLE public.exercise (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -68,5 +68,13 @@ CREATE TABLE public.goal (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
     end_date TIMESTAMP DEFAULT now(),
     achieved BOOLEAN NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.goal_workout (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+    end_date timestamp NOT NULL,
+    workout_id BIGINT,
+    goal_id BIGINT,
     PRIMARY KEY (id)
 );
