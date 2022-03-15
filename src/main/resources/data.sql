@@ -130,13 +130,6 @@ VALUES (
            2
        );
 
-INSERT INTO public.goal_workout(end_date, workout_id, goal_id)
-VALUES (
-           '2022-03-20T12:45:00.000+00:00',
-            1,
-            2
-       );
-
 INSERT INTO public.program (name, category)
 VALUES (
            'Dumbbell',
@@ -153,4 +146,18 @@ INSERT INTO public.goal (achieved, end_date)
 VALUES (
            FALSE,
            now()
+       );
+
+INSERT INTO public.goal_workout(end_date, workout_id, goal_id)
+VALUES (
+           '2022-03-20T12:45:00.000+00:00',
+           1,
+           2
+       );
+
+INSERT INTO public.goal_workout(end_date, workout_id, goal_id)
+VALUES (
+           now(),
+           2,
+           1
        );
