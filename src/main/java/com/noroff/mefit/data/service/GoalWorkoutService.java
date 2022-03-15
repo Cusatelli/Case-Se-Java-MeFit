@@ -29,12 +29,12 @@ public record GoalWorkoutService(GoalWorkoutRepository goalWorkoutRepository) {
             return null;
         }
 
-        GoalWorkout revGoalWorkout = goalWorkoutRepository.findById(goalWorkoutId).orElse(null);
-        if(revGoalWorkout == null) {
+        GoalWorkout prevGoalWorkout = goalWorkoutRepository.findById(goalWorkoutId).orElse(null);
+        if(prevGoalWorkout == null) {
             return null;
         }
 
-        goalWorkout.setId(revGoalWorkout.getId());
+        goalWorkout.setId(prevGoalWorkout.getId());
         return goalWorkoutRepository.save(goalWorkout);
     }
 
