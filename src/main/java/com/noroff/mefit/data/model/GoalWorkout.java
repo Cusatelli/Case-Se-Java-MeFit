@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "goalworkout", schema = "public")
+@Table(name = "goal_workout", schema = "public")
 public class GoalWorkout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
