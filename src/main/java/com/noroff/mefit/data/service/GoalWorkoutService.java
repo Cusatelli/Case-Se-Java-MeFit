@@ -25,7 +25,7 @@ public record GoalWorkoutService(GoalWorkoutRepository goalWorkoutRepository) {
     }
 
     public GoalWorkout update(GoalWorkout goalWorkout, Long goalWorkoutId) {
-        if (!goalWorkoutRepository.existsById((goalWorkoutId))) {
+        if (!goalWorkoutRepository.existsById(goalWorkoutId)) {
             return null;
         }
 
