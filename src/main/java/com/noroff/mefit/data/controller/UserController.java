@@ -1,7 +1,7 @@
-package com.noroff.mefit.controller;
+package com.noroff.mefit.data.controller;
 
-import com.noroff.mefit.model.User;
-import com.noroff.mefit.service.UserService;
+import com.noroff.mefit.data.service.UserService;
+import com.noroff.mefit.data.model.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,6 @@ import java.util.List;
 @Tag(name = "User")
 @RequestMapping("/api/user")
 public record UserController(UserService userService) {
-
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAll();
@@ -28,8 +27,8 @@ public record UserController(UserService userService) {
     }
 
     @PatchMapping("/{userId}")
-    public User updateUser(@RequestBody User user, @PathVariable Long userId) {
-        return userService.update(user, userId);
+    public User updateUser(@PathVariable Long userId, @RequestBody User user) {
+        return userService.update(userId, user);
     }
 
     @DeleteMapping("/{userId}")

@@ -61,19 +61,77 @@ INSERT INTO public.workout (complete, name, type)
 VALUES (
            FALSE,
            'Abdominal',
-           2
+           'Agility'
        );
 
 INSERT INTO public.workout (complete, name, type)
 VALUES (
            TRUE,
            'Bodybuilding',
-           2
+           'Strength'
        );
 
 INSERT INTO public.workout (complete, name, type)
 VALUES (
            FALSE,
            'Legs',
-           3
+           'Strength'
+       );
+
+INSERT INTO public.address (address_line_1, address_line_2, address_line_3, city, country, postal_code)
+VALUES (
+           'Tongass Ave',
+           '2417',
+           '#111',
+           'Ketchikan',
+           'USA',
+           '99901'
+       );
+
+INSERT INTO public.address (address_line_1, address_line_2, address_line_3, city, country, postal_code)
+VALUES (
+           'Killington Rd',
+           '4763',
+           null,
+           'Killington',
+           'USA',
+           '05751'
+       );
+
+INSERT INTO public.profile (disabilities, height, medical_conditions, weight, set_id, user_id)
+VALUES (
+           '9 fingers, blurred vision',
+           192,
+           null,
+           94,
+           1,
+           1
+       );
+
+INSERT INTO public.profile (disabilities, height, medical_conditions, weight, set_id, user_id)
+VALUES (
+           null,
+           179,
+           null,
+           87,
+           2,
+           1
+       );
+
+INSERT INTO public.set (exercise_repetition, exercise_id)
+VALUES (
+           4,
+           1
+       );
+
+INSERT INTO public.set (exercise_repetition, exercise_id)
+VALUES (
+           5,
+           2
+       );
+
+INSERT INTO public.program (name, category)
+VALUES (
+           'Dumbbell',
+           'Muscle building'
        );

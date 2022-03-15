@@ -1,4 +1,4 @@
-package com.noroff.mefit.model;
+package com.noroff.mefit.data.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,34 +11,27 @@ import javax.validation.constraints.Size;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 @Table(name = "user", schema = "public")
 public class User {
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter
-    @Column(name = "id")
     public Long id;
 
-    @Getter @Setter
-    @Size(min = 1, max = 50)
-    @Column(name = "password")
+    @Column
+    @Size(min = 1, max = 100)
     public String password;
 
-    @Getter @Setter
-    @Size(min = 1, max = 50)
-    @Column(name = "first_name")
+    @Column
     public String firstName;
 
-    @Getter @Setter
-    @Size(min = 1, max = 50)
-    @Column(name = "last_name")
+    @Column
     public String lastName;
 
-    @Getter @Setter
-    @Column(name = "contributor")
+    @Column
     public Boolean contributor;
 
-    @Getter @Setter
-    @Column(name = "admin")
+    @Column
     public Boolean admin;
 }
