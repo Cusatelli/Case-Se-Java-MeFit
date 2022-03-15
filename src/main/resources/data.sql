@@ -148,6 +148,17 @@ VALUES (
            now()
        );
 
+INSERT INTO public.program_workout(workout_id, program_id)
+VALUES (
+           3,
+           1
+       );
+
+INSERT INTO public.program_workout(workout_id, program_id)
+VALUES (
+           1,
+           2
+=======
 INSERT INTO public.goal_workout(end_date, workout_id, goal_id)
 VALUES (
            '2022-03-20T12:45:00.000+00:00',
