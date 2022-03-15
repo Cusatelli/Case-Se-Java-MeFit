@@ -142,3 +142,15 @@ VALUES (
            'Dumbbell',
            'Muscle building'
        );
+
+INSERT INTO public.goal (achieved, end_date)
+VALUES (
+            TRUE,
+            '2022-03-20T12:45:00.000+00:00'
+       );
+
+INSERT INTO public.goal (achieved, end_date)
+VALUES (
+           FALSE,
+           now()
+       );
