@@ -33,5 +33,5 @@ public class GoalWorkout {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "goal_id")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Goal goalId;
+    private Goal goal;
 }
