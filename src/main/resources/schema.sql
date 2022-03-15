@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS public.exercise, public.user, public.workout, public.address, public.profile, public.set, public.program CASCADE;
+DROP TABLE IF EXISTS public.exercise, public.user, public.workout, public.address, public.profile, public.set, public.program, public.goalworkout CASCADE;
 
 CREATE TABLE public.exercise (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -55,6 +55,14 @@ CREATE TABLE public.set (
     exercise_repetition INTEGER NOT NULL,
     exercise_id BIGINT,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE public.goalworkout (
+                            id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+                            end_date timestamp NOT NULL,
+                            workout_id BIGINT,
+                            goal_id BIGINT,
+                            PRIMARY KEY (id)
 );
 
 CREATE TABLE public.program (
