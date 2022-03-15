@@ -148,13 +148,13 @@ VALUES (
            now()
        );
 
-INSERT INTO public.programWorkout (workout_id, program_id)
+INSERT INTO public.program_workout(workout_id, program_id)
 VALUES (
            3,
            1
        );
 
-INSERT INTO public.programWorkout (workout_id, program_id)
+INSERT INTO public.program_workout(workout_id, program_id)
 VALUES (
            1,
            2
