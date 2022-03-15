@@ -57,12 +57,12 @@ CREATE TABLE public.set (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE public.goalworkout (
-                            id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
-                            end_date timestamp NOT NULL,
-                            workout_id BIGINT,
-                            goal_id BIGINT,
-                            PRIMARY KEY (id)
+CREATE TABLE public.goal_workout (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+    end_date timestamp NOT NULL,
+    workout_id BIGINT,
+    goal_id BIGINT,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE public.program (
