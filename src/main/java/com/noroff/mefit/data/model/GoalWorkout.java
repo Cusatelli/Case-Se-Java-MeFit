@@ -21,9 +21,9 @@ public class GoalWorkout {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column
+    @Column(name = "end_date")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Timestamp end_date;
+    private Timestamp endDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "workout_id")
