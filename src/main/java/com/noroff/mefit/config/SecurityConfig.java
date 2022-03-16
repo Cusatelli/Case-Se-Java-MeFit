@@ -1,5 +1,7 @@
-package com.noroff.mefit.security;
+package com.noroff.mefit.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +16,8 @@ import java.util.HashSet;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -35,8 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         /*
                          * Add urls here
                          */
-                        .antMatchers("/user/**").hasAnyRole("MeFit_User")
-                        .antMatchers("/security/admin").hasAnyRole("MeFit_Admin")
+                        .antMatchers("/user/**").hasAnyRole("GROUP_User")
+                        .antMatchers("/security/admin").hasAnyRole("GROUP_Admin")
 
                         // All remaining paths require authentication
                         .anyRequest().authenticated())
@@ -78,9 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         union.addAll(roles);
                         union.addAll(groups);
 
-//                        for (var a : union) {
-//                            logger.warn("JWT Authority: {}", a.getAuthority());
-//                        }
+                        for (var a : union) {
+                            logger.warn("JWT Authority: {}", a.getAuthority());
+                        }
 
                         return union;
                     });

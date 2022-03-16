@@ -5,9 +5,11 @@ RUN gradle bootJar
 
 FROM openjdk:17 as runtime
 WORKDIR /app
-ENV PORT 8080
+ENV PORT 8081
 ENV SPRING_PROFILE production
 ENV DATABASE_URL ""
+ENV ISSUER_URL "https://keycloak-authentication-server.herokuapp.com/auth/realms/mefit/"
+ENV JWKS_URI "https://keycloak-authentication-server.herokuapp.com/auth/realms/mefit/protocol/openid-connect/certs"
 ENV CLIENT_ID "client-id"
 ENV CLIENT_SECRET "client-secret"
 ENV DDL_AUTO "none"
