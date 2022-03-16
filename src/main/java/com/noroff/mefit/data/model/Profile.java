@@ -25,7 +25,7 @@ public class Profile {
     private User user;
 
     @Column(name = "goal_id")
-    private Long goalId;
+    private Long goal;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
