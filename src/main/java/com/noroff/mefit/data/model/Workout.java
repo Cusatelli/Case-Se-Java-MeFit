@@ -1,5 +1,6 @@
 package com.noroff.mefit.data.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,5 +32,8 @@ public class Workout {
     @Column(nullable = false)
     private Boolean complete;
 
-    // TODO: Add Set Model Relationship.
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "set_id")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Set set;
 }

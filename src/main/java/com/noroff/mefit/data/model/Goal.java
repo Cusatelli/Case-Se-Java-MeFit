@@ -1,5 +1,6 @@
 package com.noroff.mefit.data.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,9 @@ public class Goal {
     @Getter @Setter
     @Column(nullable = false)
     private Boolean achieved;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "program_id")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Program program;
 }
