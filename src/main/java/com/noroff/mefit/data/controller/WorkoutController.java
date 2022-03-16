@@ -2,6 +2,7 @@ package com.noroff.mefit.data.controller;
 
 import com.noroff.mefit.data.service.WorkoutService;
 import com.noroff.mefit.data.model.Workout;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Tag(name = "Workout")
 @RequestMapping("/api/workout")
+@SecurityRequirement(name = "keycloak_implicit")
+@CrossOrigin("${server.cors.application_origin}")
 public class WorkoutController {
     private final WorkoutService workoutService;
 

@@ -18,7 +18,7 @@ public class Profile {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)

@@ -2,6 +2,7 @@ package com.noroff.mefit.data.controller;
 
 import com.noroff.mefit.data.model.GoalWorkout;
 import com.noroff.mefit.data.service.GoalWorkoutService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,8 @@ import java.util.List;
 @RestController
 @Tag(name = "Goal Workout")
 @RequestMapping("/api/goal/workout")
+@SecurityRequirement(name = "keycloak_implicit")
+@CrossOrigin("${server.cors.application_origin}")
 public record GoalWorkoutController(GoalWorkoutService goalWorkoutService) {
     @GetMapping
     public List<GoalWorkout> getAllGoals() {

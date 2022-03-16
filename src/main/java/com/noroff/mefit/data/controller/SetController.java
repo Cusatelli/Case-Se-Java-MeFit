@@ -2,6 +2,7 @@ package com.noroff.mefit.data.controller;
 
 import com.noroff.mefit.data.service.SetService;
 import com.noroff.mefit.data.model.Set;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,8 @@ import java.util.List;
 @RestController
 @Tag(name = "Set")
 @RequestMapping("/api/set")
+@SecurityRequirement(name = "keycloak_implicit")
+@CrossOrigin("${server.cors.application_origin}")
 public record SetController(SetService setService) {
     @GetMapping
     public List<Set> getAllSets() {

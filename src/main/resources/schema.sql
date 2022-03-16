@@ -79,11 +79,11 @@ CREATE TABLE public.goal (
 );
 
 CREATE TABLE public.program_workout (
-                            id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
-                            workout_id BIGINT,
-                            program_id BIGINT,
-                            PRIMARY KEY (id)
-  );
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+    workout_id BIGINT,
+    program_id BIGINT,
+    PRIMARY KEY (id)
+);
 
 CREATE TABLE public.goal_workout (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,

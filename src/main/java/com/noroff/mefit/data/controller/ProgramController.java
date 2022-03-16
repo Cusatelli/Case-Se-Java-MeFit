@@ -2,6 +2,7 @@ package com.noroff.mefit.data.controller;
 
 import com.noroff.mefit.data.model.Program;
 import com.noroff.mefit.data.service.ProgramService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.List;
 @RestController
 @Tag(name = "Program")
 @RequestMapping("/api/program")
+@SecurityRequirement(name = "keycloak_implicit")
+@CrossOrigin("${server.cors.application_origin}")
 public record ProgramController(ProgramService programService) {
     @GetMapping
     public List<Program> getAllPrograms() {
