@@ -26,6 +26,7 @@ CREATE TABLE public.workout (
     complete BOOLEAN NOT NULL DEFAULT FALSE,
     name VARCHAR(50) NOT NULL,
     type VARCHAR NOT NULL,
+    set_id BIGINT,
     PRIMARY KEY (id)
 );
 
@@ -48,6 +49,10 @@ CREATE TABLE public.profile (
     weight INTEGER NOT NULL,
     set_id BIGINT,
     user_id BIGINT,
+    goal_id BIGINT,
+    address_id BIGINT,
+    program_id BIGINT,
+    workout_id BIGINT,
     PRIMARY KEY (id)
 );
 
@@ -69,9 +74,9 @@ CREATE TABLE public.goal (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
     end_date TIMESTAMP DEFAULT now(),
     achieved BOOLEAN NOT NULL,
+    program_id BIGINT,
     PRIMARY KEY (id)
 );
-
 
 CREATE TABLE public.program_workout (
                             id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -79,6 +84,7 @@ CREATE TABLE public.program_workout (
                             program_id BIGINT,
                             PRIMARY KEY (id)
   );
+
 CREATE TABLE public.goal_workout (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
     end_date timestamp NOT NULL,

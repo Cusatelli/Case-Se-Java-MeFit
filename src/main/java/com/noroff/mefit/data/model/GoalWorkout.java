@@ -22,7 +22,6 @@ public class GoalWorkout {
     public Long id;
 
     @Column(name = "end_date")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Timestamp endDate;
 
     @OneToOne(cascade = CascadeType.ALL)

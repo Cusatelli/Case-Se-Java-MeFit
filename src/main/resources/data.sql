@@ -57,25 +57,28 @@ VALUES (
            'Sole42=Foot42!#Leather'
        );
 
-INSERT INTO public.workout (complete, name, type)
+INSERT INTO public.workout (complete, name, type, set_id)
 VALUES (
            FALSE,
            'Abdominal',
-           'Agility'
+           'Agility',
+            1
        );
 
-INSERT INTO public.workout (complete, name, type)
+INSERT INTO public.workout (complete, name, type, set_id)
 VALUES (
            TRUE,
            'Bodybuilding',
-           'Strength'
+           'Strength',
+            1
        );
 
-INSERT INTO public.workout (complete, name, type)
+INSERT INTO public.workout (complete, name, type, set_id)
 VALUES (
            FALSE,
            'Legs',
-           'Strength'
+           'Strength',
+            1
        );
 
 INSERT INTO public.address (address_line_1, address_line_2, address_line_3, city, country, postal_code)
@@ -98,24 +101,32 @@ VALUES (
            '05751'
        );
 
-INSERT INTO public.profile (disabilities, height, medical_conditions, weight, set_id, user_id)
+INSERT INTO public.profile (set_id, user_id, goal_id, address_id, program_id, workout_id, disabilities, height, medical_conditions, weight)
 VALUES (
+           1,
+           1,
+           1,
+           1,
+           1,
+           1,
            '9 fingers, blurred vision',
            192,
            null,
-           94,
-           1,
-           1
+           94
        );
 
-INSERT INTO public.profile (disabilities, height, medical_conditions, weight, set_id, user_id)
+INSERT INTO public.profile (set_id, user_id, goal_id, address_id, program_id, workout_id, disabilities, height, medical_conditions, weight)
 VALUES (
+           2,
+           1,
+           1,
+           1,
+           1,
+           1,
            null,
            179,
            null,
-           87,
-           2,
-           1
+           87
        );
 
 INSERT INTO public.set (exercise_repetition, exercise_id)
@@ -136,16 +147,18 @@ VALUES (
            'Muscle building'
        );
 
-INSERT INTO public.goal (achieved, end_date)
+INSERT INTO public.goal (achieved, end_date, program_id)
 VALUES (
             TRUE,
-            '2022-03-20T12:45:00.000+00:00'
+            '2022-03-20T12:45:00.000+00:00',
+            1
        );
 
-INSERT INTO public.goal (achieved, end_date)
+INSERT INTO public.goal (achieved, end_date, program_id)
 VALUES (
            FALSE,
-           now()
+           now(),
+            1
        );
 
 INSERT INTO public.program_workout(workout_id, program_id)
@@ -157,8 +170,9 @@ VALUES (
 INSERT INTO public.program_workout(workout_id, program_id)
 VALUES (
            1,
-           2
-=======
+           1
+       );
+
 INSERT INTO public.goal_workout(end_date, workout_id, goal_id)
 VALUES (
            '2022-03-20T12:45:00.000+00:00',
