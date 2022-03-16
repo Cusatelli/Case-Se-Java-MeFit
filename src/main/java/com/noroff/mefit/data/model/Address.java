@@ -16,8 +16,9 @@ import javax.validation.constraints.Size;
 @Table(name = "address", schema = "public")
 public class Address {
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "address_line_1", nullable = false)
     private String addressLine1;
