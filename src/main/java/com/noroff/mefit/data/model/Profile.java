@@ -30,7 +30,7 @@ public class Profile {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Address addressId;
+    private Address address;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "program_id")
