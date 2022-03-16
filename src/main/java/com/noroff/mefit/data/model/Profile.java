@@ -35,7 +35,7 @@ public class Profile {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "program_id")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Program programId;
+    private Program program;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "workout_id")
