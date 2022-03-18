@@ -22,17 +22,18 @@ public record UserController(UserService userService) {
     }
 
     @GetMapping("/{userId}")
-    public User getUserById(@PathVariable Long userId) {
+    public User getUserById(@PathVariable String userId) {
         return userService.getById(userId);
     }
 
     @PatchMapping("/{userId}")
-    public User updateUser(@PathVariable Long userId, @RequestBody User user) {
-        return userService.update(userId, user);
+
+    public User updateUser(@RequestBody User user, @PathVariable String userId) {
+        return userService.update(user, userId);
     }
 
     @DeleteMapping("/{userId}")
-    public Boolean deleteUser(@PathVariable Long userId) {
+    public Boolean deleteUser(@PathVariable String userId) {
         return userService.delete(userId);
     }
 }

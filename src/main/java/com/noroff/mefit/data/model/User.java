@@ -1,9 +1,6 @@
 package com.noroff.mefit.data.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -12,12 +9,14 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
+@ToString
 @Table(name = "user", schema = "public")
 public class User {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    public String id;
+
 
     @Column
     @Size(min = 1, max = 100)

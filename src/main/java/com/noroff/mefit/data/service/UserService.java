@@ -16,7 +16,7 @@ public record UserService(UserRepository userRepository) {
         return userRepository.save(user);
     }
 
-    public User getById(Long userId) {
+    public User getById(String userId) {
         if (!userRepository.existsById((userId))) {
             return null;
         }
@@ -24,15 +24,16 @@ public record UserService(UserRepository userRepository) {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public User update(Long userId, User user) {
-        if (!userRepository.existsById(userId)) {
+
+    public User update(User user, String userId) {
+        if (!userRepository.existsById((userId))) {
             return null;
         }
         user.setId(userId);
         return userRepository.save(user);
     }
 
-    public Boolean delete(Long userId) {
+    public Boolean delete(String userId) {
         if (!userRepository.existsById(userId)) {
             return false;
         }

@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,7 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 // Enable CORS -- this is further configured on the controllers
-                .cors().and()
+               .cors()
+               .and()
 
                 // Sessions will not be used
                 .sessionManagement().disable()
@@ -40,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                         // All remaining paths require authentication
                         .anyRequest().authenticated())
+
 
                 // Configure OAuth2 Resource Server (JWT authentication)
                 .oauth2ResourceServer(oauth2 -> {
