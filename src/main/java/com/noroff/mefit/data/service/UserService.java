@@ -1,26 +1,30 @@
 package com.noroff.mefit.data.service;
 
+import com.noroff.mefit.data.model.Profile;
 import com.noroff.mefit.data.model.User;
+import com.noroff.mefit.data.repository.ProfileRepository;
 import com.noroff.mefit.data.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public record UserService(UserRepository userRepository) {
+public record UserService(UserRepository userRepository, ProfileRepository profileRepository) {
     public List<User> getAll() {
         return userRepository.findAll();
     }
 
     public User create(User user) {
-        return userRepository.save(user);
+        Profile profile = new Profile();
+        profile.setUser(user);
+        return profileRepository.save(profile).getUser();
     }
 
     public User getById(String userId) {
         if (!userRepository.existsById((userId))) {
             return null;
         }
-
         return userRepository.findById(userId).orElse(null);
     }
 
@@ -34,11 +38,14 @@ public record UserService(UserRepository userRepository) {
     }
 
     public Boolean delete(String userId) {
-        if (!userRepository.existsById(userId)) {
-            return false;
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            Optional<Profile> profileOptional = profileRepository.findProfileByUser(userOptional.get());
+            if (profileOptional.isPresent()) {
+                profileRepository.delete(profileOptional.get());
+                return true;
+            }
         }
-
-        userRepository.deleteById(userId);
-        return !userRepository.existsById(userId);
+        return false;
     }
 }
