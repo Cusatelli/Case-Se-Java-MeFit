@@ -48,9 +48,13 @@ public class Address {
     private String country;
 
     @JsonIgnore
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            mappedBy = "address"
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST
+    )
+    @JoinTable(name = "profile_address",
+            joinColumns = { @JoinColumn(name = "profile_id") },
+            inverseJoinColumns = { @JoinColumn(name = "address_id") }
     )
     private Profile profile;
 }

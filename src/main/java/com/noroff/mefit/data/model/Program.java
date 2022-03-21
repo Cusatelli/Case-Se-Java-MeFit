@@ -33,14 +33,26 @@ public class Program {
     private String category;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "programs")
-    private List<Profile> profiles = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinTable(name = "program_goal",
             joinColumns = { @JoinColumn(name = "program_id") },
             inverseJoinColumns = { @JoinColumn(name = "goal_id") }
     )
     private Goal goal;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "program_workout",
+            joinColumns = { @JoinColumn(name = "program_id") },
+            inverseJoinColumns = { @JoinColumn(name = "workout_id") }
+    )
+    private List<Workout> workouts;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "profile_program",
+            joinColumns = {@JoinColumn(name = "profile_id")},
+            inverseJoinColumns = {@JoinColumn(name = "program_id")}
+    )
+    private List<Profile> profiles = new ArrayList<>();
 }

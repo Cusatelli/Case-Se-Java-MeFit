@@ -37,9 +37,10 @@ public class User {
     public Boolean admin;
 
     @JsonIgnore
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            mappedBy = "user"
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "profile_user",
+            joinColumns = { @JoinColumn(name = "profile_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
     )
     private Profile profile;
 }

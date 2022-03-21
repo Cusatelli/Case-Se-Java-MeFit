@@ -35,51 +35,27 @@ public class Profile {
     @Column
     private String disabilities;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "profile_user",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
-    )
+    @OneToMany(mappedBy = "profile")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private User user;
+    private List<Address> addresses;
 
-    @ManyToMany
-    @JoinTable(name = "profile_goal",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "goal_id") }
-    )
+    @ManyToMany(mappedBy = "profiles")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Goal> goals;
 
-    @OneToOne
-    @JoinTable(name = "profile_address",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "address_id") }
-    )
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Address address;
-
-    @ManyToMany
-    @JoinTable(name = "profile_program",
-            joinColumns = {@JoinColumn(name = "profile_id")},
-            inverseJoinColumns = {@JoinColumn(name = "program_id")}
-    )
+    @ManyToMany(mappedBy = "profiles")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Program> programs;
 
-    @ManyToMany
-    @JoinTable(name = "profile_workout",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "workout_id") }
-    )
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<Workout> workouts;
-
-    @ManyToMany
-    @JoinTable(name = "profile_set",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "set_id") }
-    )
+    @ManyToMany(mappedBy = "profiles")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Set> sets;
+
+    @OneToOne(mappedBy = "profile")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private User user;
+
+    @ManyToMany(mappedBy = "profiles")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Workout> workouts;
 }

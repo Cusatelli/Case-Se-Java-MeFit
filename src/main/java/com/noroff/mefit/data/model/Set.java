@@ -25,26 +25,20 @@ public class Set {
     @Column
     public Integer exerciseRepetition;
 
-    @OneToOne
-    @JoinTable(name = "set_exercise",
-            joinColumns = { @JoinColumn(name = "set_id") },
-            inverseJoinColumns = { @JoinColumn(name = "exercise_id") }
-    )
+    @OneToOne(mappedBy = "set")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Exercise exercise;
 
     @JsonIgnore
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "set"
-    )
+    @OneToMany(mappedBy = "set")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Workout> workouts;
 
     @JsonIgnore
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "sets"
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "profile_set",
+            joinColumns = { @JoinColumn(name = "profile_id") },
+            inverseJoinColumns = { @JoinColumn(name = "set_id") }
     )
     private List<Profile> profiles = new ArrayList<>();
 }

@@ -34,18 +34,19 @@ public class Goal {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Program program;
 
-    @ManyToOne
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "goal_workout",
             joinColumns = { @JoinColumn(name = "goal_id") },
             inverseJoinColumns = { @JoinColumn(name = "workout_id") }
     )
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Workout workout;
+    private List<Workout> workouts;
 
     @JsonIgnore
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "goals"
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "profile_goal",
+            joinColumns = { @JoinColumn(name = "profile_id") },
+            inverseJoinColumns = { @JoinColumn(name = "goal_id") }
     )
     private List<Profile> profiles = new ArrayList<>();
 }
