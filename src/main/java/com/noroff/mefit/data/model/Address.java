@@ -1,18 +1,18 @@
 package com.noroff.mefit.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "address", schema = "public")
 public class Address {
     @Id
@@ -46,4 +46,11 @@ public class Address {
     @Size(max = 70)
     @Column(nullable = false)
     private String country;
+
+    @JsonIgnore
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            mappedBy = "address"
+    )
+    private Profile profile;
 }

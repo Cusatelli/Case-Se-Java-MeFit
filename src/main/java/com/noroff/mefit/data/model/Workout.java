@@ -1,5 +1,6 @@
 package com.noroff.mefit.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,11 +9,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
 @Table(name = "workout", schema = "public")
 public class Workout {
     @Id
@@ -32,8 +35,22 @@ public class Workout {
     @Column(nullable = false)
     private Boolean complete;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "set_id")
+    @ManyToOne
+    @JoinTable(name = "workout_set",
+            joinColumns = { @JoinColumn(name = "workout_id") },
+            inverseJoinColumns = { @JoinColumn(name = "set_id") }
+    )
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set set;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "workout")
+    private List<Goal> goals;
+
+    @JsonIgnore
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "workouts"
+    )
+    private List<Profile> profiles = new ArrayList<>();
 }
