@@ -37,6 +37,10 @@ public class Exercise {
     public String videoLink;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "exercise")
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "set_exercise",
+            joinColumns = { @JoinColumn(name = "set_id") },
+            inverseJoinColumns = { @JoinColumn(name = "exercise_id") }
+    )
     private Set set;
 }
