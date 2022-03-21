@@ -2,6 +2,8 @@ package com.noroff.mefit.data.service;
 
 import com.noroff.mefit.config.ConfigSettings;
 import com.noroff.mefit.data.model.DefaultResponse;
+import com.noroff.mefit.data.model.Goal;
+import com.noroff.mefit.data.model.Program;
 import com.noroff.mefit.data.model.Workout;
 import com.noroff.mefit.data.repository.WorkoutRepository;
 import org.springframework.http.HttpStatus;
@@ -9,9 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
-public record WorkoutService(WorkoutRepository workoutRepository) {
+public record WorkoutService(
+        WorkoutRepository workoutRepository,
+        ProgramService programService,
+        GoalService goalService
+) {
     private static final String TAG = Workout.class.getSimpleName();
 
     public ResponseEntity<DefaultResponse<List<Workout>>> getAll() {
@@ -70,6 +77,23 @@ public record WorkoutService(WorkoutRepository workoutRepository) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, workoutId))
             );
+        }
+
+        Workout workout = workoutRepository.findById(workoutId).orElse(null);
+        if(workout != null) {
+            for (Program program : workout.getPrograms()) {
+                ResponseEntity<DefaultResponse<Program>> response = programService.deleteWorkout(program.getId(), workout);
+                if(!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                    System.err.println(response.getBody().getError());
+                }
+            }
+
+            for (Goal goal : workout.getGoals()) {
+                ResponseEntity<DefaultResponse<Goal>> response = goalService.deleteWorkout(goal.getId(), workout);
+                if(!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                    System.err.println(response.getBody().getError());
+                }
+            }
         }
 
         workoutRepository.deleteById(workoutId);

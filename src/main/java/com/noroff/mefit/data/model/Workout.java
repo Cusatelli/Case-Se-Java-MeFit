@@ -35,13 +35,13 @@ public class Workout {
     @Column(nullable = false)
     private Boolean complete;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "workout_set",
             joinColumns = { @JoinColumn(name = "workout_id") },
             inverseJoinColumns = { @JoinColumn(name = "set_id") }
     )
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set set;
+    private List<Set> sets;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "workouts")
