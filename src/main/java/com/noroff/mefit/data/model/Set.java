@@ -30,7 +30,7 @@ public class Set {
     private Exercise exercise;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "set")
+    @ManyToMany(mappedBy = "sets")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Workout> workouts;
 
