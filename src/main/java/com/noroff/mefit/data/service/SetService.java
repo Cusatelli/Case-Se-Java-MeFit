@@ -65,6 +65,10 @@ public record SetService(SetRepository setRepository) {
         );
     }
 
+    @Deprecated(
+            forRemoval = true,
+            since = "It does not delete the 'Set' object from the PostgreSQL database"
+    )
     public ResponseEntity<DefaultResponse<Void>> delete(Long setId) {
         if (!setRepository.existsById(setId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
