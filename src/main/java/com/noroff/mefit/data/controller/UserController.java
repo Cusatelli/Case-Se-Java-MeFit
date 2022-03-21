@@ -1,8 +1,10 @@
 package com.noroff.mefit.data.controller;
 
+import com.noroff.mefit.data.model.DefaultResponse;
 import com.noroff.mefit.data.service.UserService;
 import com.noroff.mefit.data.model.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,27 +14,27 @@ import java.util.List;
 @RequestMapping("/api/user")
 public record UserController(UserService userService) {
     @GetMapping
-    public List<User> getAllUsers() {
+    public ResponseEntity<DefaultResponse<List<User>>> getAllUsers() {
         return userService.getAll();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public ResponseEntity<DefaultResponse<User>> createUser(@RequestBody User user) {
         return userService.create(user);
     }
 
     @GetMapping("/{userId}")
-    public User getUserById(@PathVariable Long userId) {
+    public ResponseEntity<DefaultResponse<User>> getUserById(@PathVariable Long userId) {
         return userService.getById(userId);
     }
 
     @PatchMapping("/{userId}")
-    public User updateUser(@PathVariable Long userId, @RequestBody User user) {
+    public ResponseEntity<DefaultResponse<User>> updateUser(@PathVariable Long userId, @RequestBody User user) {
         return userService.update(userId, user);
     }
 
     @DeleteMapping("/{userId}")
-    public Boolean deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<DefaultResponse<Void>> deleteUser(@PathVariable Long userId) {
         return userService.delete(userId);
     }
 }

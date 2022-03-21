@@ -1,8 +1,10 @@
 package com.noroff.mefit.data.controller;
 
+import com.noroff.mefit.data.model.DefaultResponse;
 import com.noroff.mefit.data.model.Program;
 import com.noroff.mefit.data.service.ProgramService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -11,27 +13,27 @@ import java.util.List;
 @RequestMapping("/api/program")
 public record ProgramController(ProgramService programService) {
     @GetMapping
-    public List<Program> getAllPrograms() {
+    public ResponseEntity<DefaultResponse<List<Program>>> getAllPrograms() {
         return programService.getAll();
     }
 
     @PostMapping
-    public Program createProgram(@RequestBody Program program) {
+    public ResponseEntity<DefaultResponse<Program>> createProgram(@RequestBody Program program) {
         return programService.create(program);
     }
 
     @GetMapping("/{programId}")
-    public Program getProgramById(@PathVariable Long programId) {
+    public ResponseEntity<DefaultResponse<Program>> getProgramById(@PathVariable Long programId) {
         return programService.getById(programId);
     }
 
     @PatchMapping("/{programId}")
-    public Program updateProgram(@PathVariable Long programId, @RequestBody Program program) {
+    public ResponseEntity<DefaultResponse<Program>> updateProgram(@PathVariable Long programId, @RequestBody Program program) {
         return programService.update(programId, program);
     }
 
     @DeleteMapping("/{programId}")
-    public Boolean deleteProgram(@PathVariable Long programId) {
+    public ResponseEntity<DefaultResponse<Void>> deleteProgram(@PathVariable Long programId) {
         return programService.delete(programId);
     }
 }

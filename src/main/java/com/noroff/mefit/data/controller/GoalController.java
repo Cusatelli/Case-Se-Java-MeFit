@@ -1,8 +1,10 @@
 package com.noroff.mefit.data.controller;
 
+import com.noroff.mefit.data.model.DefaultResponse;
 import com.noroff.mefit.data.model.Goal;
 import com.noroff.mefit.data.service.GoalService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,27 +14,27 @@ import java.util.List;
 @RequestMapping("/api/goal")
 public record GoalController(GoalService goalService) {
     @GetMapping
-    public List<Goal> getAllGoals() {
+    public ResponseEntity<DefaultResponse<List<Goal>>> getAllGoals() {
         return goalService.getAll();
     }
 
     @PostMapping
-    public Goal createGoal(@RequestBody Goal goal) {
+    public ResponseEntity<DefaultResponse<Goal>> createGoal(@RequestBody Goal goal) {
         return goalService.create(goal);
     }
 
     @GetMapping("/{goalId}")
-    public Goal getGoalById(@PathVariable Long goalId) {
+    public ResponseEntity<DefaultResponse<Goal>> getGoalById(@PathVariable Long goalId) {
         return goalService.getById(goalId);
     }
 
     @PatchMapping("/{goalId}")
-    public Goal updateGoal(@PathVariable Long goalId, @RequestBody Goal goal) {
+    public ResponseEntity<DefaultResponse<Goal>> updateGoal(@PathVariable Long goalId, @RequestBody Goal goal) {
         return goalService.update(goalId, goal);
     }
 
     @DeleteMapping("/{goalId}")
-    public Boolean deleteGoal(@PathVariable Long goalId) {
+    public ResponseEntity<DefaultResponse<Void>> deleteGoal(@PathVariable Long goalId) {
         return goalService.delete(goalId);
     }
 
