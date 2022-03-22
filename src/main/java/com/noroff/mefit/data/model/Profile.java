@@ -32,9 +32,9 @@ public class Profile {
     @Column
     private String disabilities;
 
-    @OneToMany(mappedBy = "profile")
+    @OneToOne(mappedBy = "profile")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<Address> addresses;
+    private Address address;
 
     @ManyToMany(mappedBy = "profiles")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
