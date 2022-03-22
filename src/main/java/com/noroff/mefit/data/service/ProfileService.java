@@ -40,8 +40,15 @@ public record ProfileService(ProfileRepository profileRepository) {
     }
 
     public ResponseEntity<DefaultResponse<Profile>> create(Profile profile) {
+        Profile savedProfile = profileRepository.save(profile);
+        if(!profileRepository.existsById(savedProfile.getId())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, savedProfile.getId()))
+            );
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
-                new DefaultResponse<>(profileRepository.save(profile))
+                new DefaultResponse<>(savedProfile)
         );
     }
 

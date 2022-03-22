@@ -28,18 +28,13 @@ public record UserController(UserService userService) {
         return userService.create(user);
     }
 
-    @PostMapping("/{userId}/create=profile")
-    public ResponseEntity<DefaultResponse<User>> linkUserProfile(@PathVariable Long userId) {
-        return userService.linkUserProfile(userId);
-    }
-
     @PatchMapping("/{userId}")
     public ResponseEntity<DefaultResponse<User>> updateUser(@PathVariable Long userId, @RequestBody User user) {
         return userService.update(userId, user);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<Void>> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<DefaultResponse<User>> deleteUser(@PathVariable Long userId) {
         return userService.delete(userId);
     }
 }

@@ -1,5 +1,8 @@
 package com.noroff.mefit.data.model;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 public class DefaultResponse<T> {
     public static class ErrorResponse {
         private final Integer status;
@@ -57,5 +60,9 @@ public class DefaultResponse<T> {
 
     public static String FOUND(String modelName, Long id) {
         return "Found " + modelName + " with ID: " + id;
+    }
+
+    public static String BAD_REQUEST(String modelName) {
+        return "Bad Request: " + modelName;
     }
 }

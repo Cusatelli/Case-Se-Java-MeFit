@@ -18,11 +18,6 @@ public record ProfileController(ProfileService profileService) {
         return profileService.getAll();
     }
 
-    @PostMapping
-    public ResponseEntity<DefaultResponse<Profile>> createProfile(@RequestBody Profile profile) {
-        return profileService.create(profile);
-    }
-
     @GetMapping("/{profileId}")
     public ResponseEntity<DefaultResponse<Profile>> getProfileById(@PathVariable Long profileId) {
         return profileService.getById(profileId);
@@ -31,10 +26,5 @@ public record ProfileController(ProfileService profileService) {
     @PatchMapping("/{profileId}")
     public ResponseEntity<DefaultResponse<Profile>> updateProfile(@PathVariable Long profileId, @RequestBody Profile profile) {
         return profileService.update(profileId, profile);
-    }
-
-    @DeleteMapping("/{profileId}")
-    public ResponseEntity<DefaultResponse<Void>> deleteProfile(@PathVariable Long profileId) {
-        return profileService.delete(profileId);
     }
 }
