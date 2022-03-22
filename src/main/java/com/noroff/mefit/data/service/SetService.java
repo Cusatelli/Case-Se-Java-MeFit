@@ -90,14 +90,12 @@ public record SetService(
         );
     }
 
-    public boolean removeSetsInWorkout(Set set) {
-        if(set == null) return false;
+    public void removeSetsInWorkout(Set set) {
+        if(set == null) return;
 
         for (Workout workout : set.getWorkouts()) {
             workout.getSets().remove(set);
             workoutService.update(workout.getId(), workout);
         }
-
-        return true;
     }
 }
