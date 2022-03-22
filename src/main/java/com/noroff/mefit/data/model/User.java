@@ -1,5 +1,6 @@
 package com.noroff.mefit.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user", schema = "public")
 public class User {
     @Id
@@ -34,4 +35,12 @@ public class User {
 
     @Column
     public Boolean admin;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "profile_user",
+            joinColumns = { @JoinColumn(name = "profile_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+    )
+    private Profile profile;
 }

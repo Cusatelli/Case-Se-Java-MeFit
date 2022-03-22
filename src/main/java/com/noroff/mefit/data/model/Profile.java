@@ -8,43 +8,18 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "profile", schema = "public")
 public class Profile {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private User user;
-
-    @Column(name = "goal_id")
-    private Long goal;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Address address;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "program_id")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Program program;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "workout_id")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Workout workout;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set set;
 
     @Column
     @Size(min = 1, max = 5)
@@ -59,4 +34,28 @@ public class Profile {
 
     @Column
     private String disabilities;
+
+    @OneToMany(mappedBy = "profile")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Address> addresses;
+
+    @ManyToMany(mappedBy = "profiles")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Goal> goals;
+
+    @ManyToMany(mappedBy = "profiles")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Program> programs;
+
+    @ManyToMany(mappedBy = "profiles")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Set> sets;
+
+    @OneToOne(mappedBy = "profile")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private User user;
+
+    @ManyToMany(mappedBy = "profiles")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Workout> workouts;
 }

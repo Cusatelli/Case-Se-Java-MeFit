@@ -1,49 +1,87 @@
 package com.noroff.mefit.data.service;
 
+import com.noroff.mefit.config.ConfigSettings;
+import com.noroff.mefit.data.model.DefaultResponse;
 import com.noroff.mefit.data.model.Exercise;
 import com.noroff.mefit.data.repository.ExerciseRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public record ExerciseService(ExerciseRepository exerciseRepository) {
-    public List<Exercise> getAll() {
-        return exerciseRepository.findAll();
+    private static final String TAG = Exercise.class.getSimpleName();
+
+    public ResponseEntity<DefaultResponse<List<Exercise>>> getAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(exerciseRepository.findAll())
+        );
     }
 
-    public Exercise create(Exercise user) {
-        return exerciseRepository.save(user);
-    }
-
-    public Exercise getById(Long userId) {
-        if (!exerciseRepository.existsById(userId)) {
-            return null;
-        }
-
-        return exerciseRepository.findById(userId).orElse(null);
-    }
-
-    public Exercise update(Long exerciseId, Exercise exercise) {
+    public ResponseEntity<DefaultResponse<Exercise>> getById(Long exerciseId) {
         if (!exerciseRepository.existsById(exerciseId)) {
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, exerciseId))
+            );
         }
 
-        Exercise prevExercise = exerciseRepository.findById(exerciseId).orElse(null);
-        if(prevExercise == null) {
-            return null;
+        Exercise exercise = exerciseRepository.findById(exerciseId).orElse(null);
+        if(exercise == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
+                    new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
+            );
         }
 
-        exercise.setId(prevExercise.getId());
-        return exerciseRepository.save(exercise);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(exercise)
+        );
     }
 
-    public Boolean delete(Long userId) {
-        if (!exerciseRepository.existsById(userId)) {
-            return false;
+    public ResponseEntity<DefaultResponse<Exercise>> create(Exercise exercise) {
+        return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
+                new DefaultResponse<>(exerciseRepository.save(exercise))
+        );
+    }
+
+    public ResponseEntity<DefaultResponse<Exercise>> update(Long exerciseId, Exercise exercise) {
+        if (!exerciseRepository.existsById(exerciseId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, exerciseId))
+            );
         }
 
-        exerciseRepository.deleteById(userId);
-        return !exerciseRepository.existsById(userId);
+        Exercise dbExercise = exerciseRepository.findById(exerciseId).orElse(null);
+        if(dbExercise == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
+                    new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
+            );
+        }
+
+        exercise.setId(dbExercise.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(exerciseRepository.save(exercise))
+        );
+    }
+
+    public ResponseEntity<DefaultResponse<Void>> delete(Long exerciseId) {
+        if (!exerciseRepository.existsById(exerciseId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, exerciseId))
+            );
+        }
+
+        exerciseRepository.deleteById(exerciseId);
+
+        if(exerciseRepository.existsById(exerciseId)) {
+            return ResponseEntity.status(HttpStatus.FOUND).body(
+                    new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, exerciseId))
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
+                new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
+        );
     }
 }

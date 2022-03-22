@@ -1,51 +1,113 @@
 package com.noroff.mefit.data.service;
 
+import com.noroff.mefit.config.ConfigSettings;
+import com.noroff.mefit.data.model.DefaultResponse;
+import com.noroff.mefit.data.model.Goal;
+import com.noroff.mefit.data.model.Program;
 import com.noroff.mefit.data.model.Workout;
 import com.noroff.mefit.data.repository.WorkoutRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
-public record WorkoutService(WorkoutRepository workoutRepository) {
-    public List<Workout> getAll() {
-        return workoutRepository.findAll();
+public record WorkoutService(
+        WorkoutRepository workoutRepository,
+        ProgramService programService,
+        GoalService goalService
+) {
+    private static final String TAG = Workout.class.getSimpleName();
+
+    public ResponseEntity<DefaultResponse<List<Workout>>> getAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(workoutRepository.findAll())
+        );
     }
 
-    public Workout getById(Long id) {
-        return workoutRepository.findById(id).orElse(null);
+    public ResponseEntity<DefaultResponse<Workout>> getById(Long workoutId) {
+        if (!workoutRepository.existsById(workoutId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, workoutId))
+            );
+        }
+
+        Workout workout = workoutRepository.findById(workoutId).orElse(null);
+        if(workout == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
+                    new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(workout)
+        );
     }
 
-    public Workout add(Workout workout) {
-        if(workout.getComplete() == null) { workout.setComplete(false); }
-        return this.workoutRepository.saveAndFlush(workout);
+    public ResponseEntity<DefaultResponse<Workout>> create(Workout workout) {
+        return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
+                new DefaultResponse<>(workoutRepository.save(workout))
+        );
     }
 
-    public Workout add(Workout workout, String workoutType) {
-        if(workoutType != null) { workout.setType(workoutType); }
-        return this.add(workout);
+    public ResponseEntity<DefaultResponse<Workout>> update(Long workoutId, Workout workout) {
+        if (!workoutRepository.existsById(workoutId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, workoutId))
+            );
+        }
+
+        Workout dbWorkout = workoutRepository.findById(workoutId).orElse(null);
+        if(dbWorkout == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
+                    new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
+            );
+        }
+
+        workout.setId(dbWorkout.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(workoutRepository.save(workout))
+        );
     }
 
-    public Workout update(Long workoutId, Workout workout) {
-        if(!existsById(workoutId)) { return null; }
+    public ResponseEntity<DefaultResponse<Void>> delete(Long workoutId) {
+        if (!workoutRepository.existsById(workoutId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, workoutId))
+            );
+        }
 
-        workout.setId(workoutId); // Make sure the ID matches.
-        return this.workoutRepository.saveAndFlush(workout);
-    }
+        Workout workout = workoutRepository.findById(workoutId).orElse(null);
+        if(workout != null) {
+            for (Program program : workout.getPrograms()) {
+                program.getWorkouts().remove(workout);
+                ResponseEntity<DefaultResponse<Program>> response = programService.update(program.getId(), program);
+                if(!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                    System.err.println(response.getBody().getError());
+                }
+            }
 
-    public Boolean delete(Long workoutId) {
-        if(!existsById(workoutId)) { return false; } // Check if exists before delete.
+            for (Goal goal : workout.getGoals()) {
+                goal.getWorkouts().remove(workout);
+                ResponseEntity<DefaultResponse<Goal>> response = goalService.update(goal.getId(), goal);
+                if(!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                    System.err.println(response.getBody().getError());
+                }
+            }
+        }
 
-        this.workoutRepository.deleteById(workoutId);
-        return !existsById(workoutId); // Check if exists after delete and return opposite.
-    }
+        workoutRepository.deleteById(workoutId);
 
-    /**
-     * Helper Method to shorten the written statement to check if an Object with an ID exists.
-     * @param id value to search for in database.
-     * @return true if value lives in database / false if value does not exist.
-     */
-    private Boolean existsById(Long id) {
-        return this.workoutRepository.existsById(id);
+        if(workoutRepository.existsById(workoutId)) {
+            return ResponseEntity.status(HttpStatus.FOUND).body(
+                    new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, workoutId))
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
+                new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
+        );
     }
 }

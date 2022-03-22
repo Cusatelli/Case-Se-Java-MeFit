@@ -1,8 +1,10 @@
 package com.noroff.mefit.data.controller;
 
+import com.noroff.mefit.data.model.DefaultResponse;
 import com.noroff.mefit.data.service.SetService;
 import com.noroff.mefit.data.model.Set;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,27 +14,27 @@ import java.util.List;
 @RequestMapping("/api/set")
 public record SetController(SetService setService) {
     @GetMapping
-    public List<Set> getAllSets() {
+    public ResponseEntity<DefaultResponse<List<Set>>> getAllSets() {
         return setService.getAll();
     }
 
     @PostMapping
-    public Set createSet(@RequestBody Set set) {
+    public ResponseEntity<DefaultResponse<Set>> createSet(@RequestBody Set set) {
         return setService.create(set);
     }
 
     @GetMapping("/{setId}")
-    public Set getSetById(@PathVariable Long setId) {
+    public ResponseEntity<DefaultResponse<Set>> getSetById(@PathVariable Long setId) {
         return setService.getById(setId);
     }
 
     @PatchMapping("/{setId}")
-    public Set updateSet(@PathVariable Long setId, @RequestBody Set set) {
+    public ResponseEntity<DefaultResponse<Set>> updateSet(@PathVariable Long setId, @RequestBody Set set) {
         return setService.update(setId, set);
     }
 
     @DeleteMapping("/{setId}")
-    public Boolean deleteSet(@PathVariable Long setId) {
+    public ResponseEntity<DefaultResponse<Void>> deleteSet(@PathVariable Long setId) {
         return setService.delete(setId);
     }
 

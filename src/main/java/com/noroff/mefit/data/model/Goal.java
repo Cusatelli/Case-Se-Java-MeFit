@@ -1,5 +1,6 @@
 package com.noroff.mefit.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,28 +10,43 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@AllArgsConstructor
+@Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "goal", schema = "public")
 public class Goal {
     @Id
-    @Getter @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    @Getter @Setter
     private Timestamp endDate;
 
     @NotNull
-    @Getter @Setter
     @Column(nullable = false)
     private Boolean achieved;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "program_id")
+    @OneToOne(mappedBy = "goal")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Program program;
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "goal_workout",
+            joinColumns = { @JoinColumn(name = "goal_id") },
+            inverseJoinColumns = { @JoinColumn(name = "workout_id") }
+    )
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Workout> workouts;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "profile_goal",
+            joinColumns = { @JoinColumn(name = "profile_id") },
+            inverseJoinColumns = { @JoinColumn(name = "goal_id") }
+    )
+    private List<Profile> profiles = new ArrayList<>();
 }
