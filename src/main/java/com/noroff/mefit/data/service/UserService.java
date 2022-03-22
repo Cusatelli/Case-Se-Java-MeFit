@@ -104,6 +104,20 @@ public record UserService(
         return RESPONSE_NO_CONTENT();
     }
 
+    public ResponseEntity<DefaultResponse<User>> deleteAll(Long userId) {
+        if (!userRepository.existsById(userId)) { return RESPONSE_NOT_FOUND(userId); }
+
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null) { return RESPONSE_NOT_FOUND(userId); }
+
+        userRepository.deleteById(userId);
+        if(userRepository.existsById(userId)) { return RESPONSE_FOUND(userId); }
+
+        profileService.deleteAll(user.getProfile());
+
+        return RESPONSE_NO_CONTENT();
+    }
+
     private static ResponseEntity<DefaultResponse<User>> RESPONSE_NO_CONTENT() {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
                 new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
