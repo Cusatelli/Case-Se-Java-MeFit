@@ -18,14 +18,19 @@ public record UserController(UserService userService) {
         return userService.getAll();
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<DefaultResponse<User>> getUserById(@PathVariable Long userId) {
+        return userService.getById(userId);
+    }
+
     @PostMapping
     public ResponseEntity<DefaultResponse<User>> createUser(@RequestBody User user) {
         return userService.create(user);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<User>> getUserById(@PathVariable Long userId) {
-        return userService.getById(userId);
+    @PostMapping("/{userId}/create=profile")
+    public ResponseEntity<DefaultResponse<User>> linkUserProfile(@PathVariable Long userId) {
+        return userService.linkUserProfile(userId);
     }
 
     @PatchMapping("/{userId}")
