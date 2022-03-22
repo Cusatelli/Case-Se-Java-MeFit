@@ -3,14 +3,12 @@ package com.noroff.mefit.data.service;
 import com.noroff.mefit.config.ConfigSettings;
 import com.noroff.mefit.data.model.DefaultResponse;
 import com.noroff.mefit.data.model.Program;
-import com.noroff.mefit.data.model.Workout;
 import com.noroff.mefit.data.repository.ProgramRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public record ProgramService(ProgramRepository programRepository) {
@@ -85,17 +83,5 @@ public record ProgramService(ProgramRepository programRepository) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
                 new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
         );
-    }
-
-    public ResponseEntity<DefaultResponse<Program>> deleteWorkout(Long programId, Workout workout) {
-        Program program = Objects.requireNonNull(getById(programId).getBody()).getPayload();
-        if(program == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, programId))
-            );
-        }
-
-        program.getWorkouts().remove(workout);
-        return this.update(programId, program);
     }
 }
