@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -22,11 +21,9 @@ public class Profile {
     private Long id;
 
     @Column
-    @Size(min = 1, max = 5)
     private Integer weight;
 
     @Column
-    @Size(min = 1, max = 3)
     private Integer height;
 
     @Column
