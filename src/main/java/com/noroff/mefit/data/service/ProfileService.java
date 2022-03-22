@@ -116,6 +116,43 @@ public record ProfileService(
         );
     }
 
+    public ResponseEntity<DefaultResponse<Profile>> updateProgram(Long profileId, Program program) {
+        if(!profileRepository.existsById(profileId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+
+        ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+        Profile savedProfile = profileResponse.getBody().getPayload();
+
+        List<Program> programs = savedProfile.getPrograms();
+        for (Program savedProgram : programs) {
+            // if exists => update
+            program.setId(savedProgram.getId());
+            program.setProfiles(savedProgram.getProfiles());
+            ResponseEntity<DefaultResponse<Program>> response = programService.update(program.getId(), program);
+            if (!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                return ResponseEntity.status(HttpStatus.valueOf(response.getBody().getError().getStatus())).body(
+                        new DefaultResponse<>(response.getBody().getError().getStatus(), response.getBody().getError().getMessage())
+                );
+            }
+            programs.remove(savedProgram);
+            programs.add(response.getBody().getPayload());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(profileRepository.save(savedProfile))
+        );
+
+        // TODO: else => create
+    }
+
     public ResponseEntity<DefaultResponse<Void>> delete(Long profileId) {
         if (!profileRepository.existsById(profileId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(

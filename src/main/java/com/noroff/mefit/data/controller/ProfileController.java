@@ -28,7 +28,14 @@ public record ProfileController(ProfileService profileService) {
     }
 
     @PatchMapping("/{profileId}/address")
-    public ResponseEntity<DefaultResponse<Profile>> updateAddressInProfile(@PathVariable Long profileId, @RequestBody Address address) {
+    public ResponseEntity<DefaultResponse<Profile>> updateProfileAddress(@PathVariable Long profileId, @RequestBody Address address) {
         return profileService.updateAddress(profileId, address);
     }
+
+    @PatchMapping("/{profileId}/program")
+    public ResponseEntity<DefaultResponse<Profile>> updateProfileProgram(@PathVariable Long profileId, @RequestBody Program program) {
+        return profileService.updateProgram(profileId, program);
+    }
+
+    // TODO: Update => Goal, Set, User, Workout
 }
