@@ -113,7 +113,9 @@ public record UserService(
         userRepository.deleteById(userId);
         if(userRepository.existsById(userId)) { return RESPONSE_FOUND(userId); }
 
-        profileService.deleteAll(user.getProfile());
+        DefaultResponse<Profile> response = profileService.deleteAll(user.getProfile()).getBody();
+        if(response == null) { return RESPONSE_BAD_REQUEST(); }
+        if(response.getError().getStatus() != HttpStatus.NO_CONTENT.value()) { return RESPONSE_BAD_REQUEST(); }
 
         return RESPONSE_NO_CONTENT();
     }

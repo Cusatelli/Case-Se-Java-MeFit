@@ -99,7 +99,7 @@ public record ProfileService(
         );
     }
 
-    public ResponseEntity<DefaultResponse<Void>> deleteAll(Profile profile) {
+    public ResponseEntity<DefaultResponse<Profile>> deleteAll(Profile profile) {
         if (profile == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, null))
