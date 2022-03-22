@@ -24,17 +24,17 @@ public record UserController(UserService userService) {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<User>> getUserById(@PathVariable Long userId) {
+    public ResponseEntity<DefaultResponse<User>> getUserById(@PathVariable String userId) {
         return userService.getById(userId);
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<User>> updateUser(@PathVariable Long userId, @RequestBody User user) {
+    public ResponseEntity<DefaultResponse<User>> updateUser(@PathVariable String userId, @RequestBody User user) {
         return userService.update(userId, user);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<Void>> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<DefaultResponse<Void>> deleteUser(@PathVariable String userId) {
         return userService.delete(userId);
     }
 }

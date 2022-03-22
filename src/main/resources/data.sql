@@ -25,32 +25,36 @@ VALUES (
            'https://www.youtube.com/watch?v=GXM-iYXhQfY'
        );
 
-INSERT INTO public.user (admin, contributor, first_name, last_name, password)
+INSERT INTO public.user (id, admin, contributor, first_name, last_name, password)
 VALUES (
+           'EmGEpHAfkXrpWtnhCjYK',
            FALSE,
            FALSE,
            'John', 'Doe',
            '123WeakPassword'
        );
 
-INSERT INTO public.user (admin, contributor, first_name, last_name, password)
+INSERT INTO public.user (id, admin, contributor, first_name, last_name, password)
 VALUES (
+           'gjFJwzKCDktFqNqYMpVe',
            TRUE,
            TRUE,
            'Erica', 'Jones',
            'Ball199x=fun'
        );
 
-INSERT INTO public.user (admin, contributor, first_name, last_name, password)
+INSERT INTO public.user (id, admin, contributor, first_name, last_name, password)
 VALUES (
+           'KgXDAvmbbEFOyWZnJnQB',
            FALSE,
            TRUE,
            'Silver', 'Adamson',
            '092OkEs#!2fKfESz=67'
        );
 
-INSERT INTO public.user (admin, contributor, first_name, last_name, password)
+INSERT INTO public.user (id, admin, contributor, first_name, last_name, password)
 VALUES (
+           'CAvNnEsZZFUvUpmVNPUx',
            FALSE,
            FALSE,
            'Alice', 'Shoemaker',
@@ -172,8 +176,8 @@ VALUES (
            1
        );
 
-INSERT INTO public.profile_user (profile_id, user_id) VALUES (1, 1);
-INSERT INTO public.profile_user (profile_id, user_id) VALUES (2, 2);
+INSERT INTO public.profile_user (profile_id, user_id) VALUES (1, 'EmGEpHAfkXrpWtnhCjYK');
+INSERT INTO public.profile_user (profile_id, user_id) VALUES (2, 'gjFJwzKCDktFqNqYMpVe');
 
 INSERT INTO public.profile_address (profile_id, address_id) VALUES (1, 1);
 INSERT INTO public.profile_address (profile_id, address_id) VALUES (2, 2);

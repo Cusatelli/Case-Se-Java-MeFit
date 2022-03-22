@@ -20,7 +20,7 @@ public record UserService(UserRepository userRepository) {
         );
     }
 
-    public ResponseEntity<DefaultResponse<User>> getById(Long userId) {
+    public ResponseEntity<DefaultResponse<User>> getById(String userId) {
         if (!userRepository.existsById(userId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, userId))
@@ -45,7 +45,7 @@ public record UserService(UserRepository userRepository) {
         );
     }
 
-    public ResponseEntity<DefaultResponse<User>> update(Long userId, User user) {
+    public ResponseEntity<DefaultResponse<User>> update(String userId, User user) {
         if (!userRepository.existsById(userId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, userId))
@@ -65,7 +65,7 @@ public record UserService(UserRepository userRepository) {
         );
     }
 
-    public ResponseEntity<DefaultResponse<Void>> delete(Long userId) {
+    public ResponseEntity<DefaultResponse<Void>> delete(String userId) {
         if (!userRepository.existsById(userId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, userId))
