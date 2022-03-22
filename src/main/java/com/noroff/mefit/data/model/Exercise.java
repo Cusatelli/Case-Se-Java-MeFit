@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -37,10 +38,6 @@ public class Exercise {
     public String videoLink;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "set_exercise",
-            joinColumns = { @JoinColumn(name = "set_id") },
-            inverseJoinColumns = { @JoinColumn(name = "exercise_id") }
-    )
-    private Set set;
+    @ManyToMany(mappedBy = "exercise")
+    private List<Set> set;
 }

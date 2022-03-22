@@ -25,9 +25,13 @@ public class Set {
     @Column
     public Integer exerciseRepetition;
 
-    @OneToOne(mappedBy = "set")
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "set_exercise",
+            joinColumns = { @JoinColumn(name = "set_id") },
+            inverseJoinColumns = { @JoinColumn(name = "exercise_id") }
+    )
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Exercise exercise;
+    private List<Exercise> exercise;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "sets")
