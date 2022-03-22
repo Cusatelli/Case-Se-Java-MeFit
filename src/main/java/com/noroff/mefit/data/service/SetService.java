@@ -3,6 +3,7 @@ package com.noroff.mefit.data.service;
 import com.noroff.mefit.config.ConfigSettings;
 import com.noroff.mefit.data.model.DefaultResponse;
 import com.noroff.mefit.data.model.Set;
+import com.noroff.mefit.data.model.Workout;
 import com.noroff.mefit.data.repository.SetRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public record SetService(SetRepository setRepository) {
+public record SetService(
+        SetRepository setRepository,
+        WorkoutService workoutService,
+        ExerciseService exerciseService
+) {
     private static final String TAG = Set.class.getSimpleName();
 
     public ResponseEntity<DefaultResponse<List<Set>>> getAll() {
@@ -65,10 +70,6 @@ public record SetService(SetRepository setRepository) {
         );
     }
 
-    @Deprecated(
-            forRemoval = true,
-            since = "It does not delete the 'Set' object from the PostgreSQL database"
-    )
     public ResponseEntity<DefaultResponse<Void>> delete(Long setId) {
         if (!setRepository.existsById(setId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -76,6 +77,7 @@ public record SetService(SetRepository setRepository) {
             );
         }
 
+        removeSetsInWorkout(setRepository.findById(setId).orElse(null));
         setRepository.deleteById(setId);
 
         if(setRepository.existsById(setId)) {
@@ -87,5 +89,16 @@ public record SetService(SetRepository setRepository) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
                 new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
         );
+    }
+
+    public boolean removeSetsInWorkout(Set set) {
+        if(set == null) return false;
+
+        for (Workout workout : set.getWorkouts()) {
+            workout.getSets().remove(set);
+            workoutService.update(workout.getId(), workout);
+        }
+
+        return true;
     }
 }
