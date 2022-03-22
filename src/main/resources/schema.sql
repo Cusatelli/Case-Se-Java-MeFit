@@ -62,11 +62,11 @@ CREATE TABLE public.address
 
 CREATE TABLE public.profile
 (
-    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id BIGINT NOT NULL UNIQUE GENERATED ALWAYS AS IDENTITY,
     disabilities VARCHAR,
-    height INTEGER NOT NULL,
+    height INTEGER,
     medical_conditions VARCHAR,
-    weight INTEGER NOT NULL,
+    weight INTEGER,
     PRIMARY KEY (id)
 );
 
