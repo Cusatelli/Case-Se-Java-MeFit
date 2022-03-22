@@ -79,6 +79,43 @@ public record ProfileService(
         );
     }
 
+    public ResponseEntity<DefaultResponse<Profile>> updateAddress(Long profileId, Address address) {
+        if(!profileRepository.existsById(profileId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+
+        ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+        Profile savedProfile = profileResponse.getBody().getPayload();
+
+        if(savedProfile.getAddress() == null) {
+            address.setProfile(savedProfile);
+            ResponseEntity<DefaultResponse<Address>> response = addressService.create(address);
+            if(response.getBody() != null && response.getBody().getSuccess()) {
+                Address savedAddress = response.getBody().getPayload();
+                savedProfile.setAddress(savedAddress);
+            }
+        } else {
+            address.setId(savedProfile.getAddress().getId());
+            address.setProfile(savedProfile);
+            ResponseEntity<DefaultResponse<Address>> response = addressService.update(address.getId(), address);
+            if(response.getBody() != null && response.getBody().getSuccess()) {
+                Address savedAddress = response.getBody().getPayload();
+                savedProfile.setAddress(savedAddress);
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(profileRepository.save(savedProfile))
+        );
+    }
+
     public ResponseEntity<DefaultResponse<Void>> delete(Long profileId) {
         if (!profileRepository.existsById(profileId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
