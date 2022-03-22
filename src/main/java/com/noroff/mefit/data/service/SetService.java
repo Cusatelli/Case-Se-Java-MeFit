@@ -14,8 +14,7 @@ import java.util.List;
 @Service
 public record SetService(
         SetRepository setRepository,
-        WorkoutService workoutService,
-        ExerciseService exerciseService
+        WorkoutService workoutService
 ) {
     private static final String TAG = Set.class.getSimpleName();
 
