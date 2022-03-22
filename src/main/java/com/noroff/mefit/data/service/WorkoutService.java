@@ -82,14 +82,16 @@ public record WorkoutService(
         Workout workout = workoutRepository.findById(workoutId).orElse(null);
         if(workout != null) {
             for (Program program : workout.getPrograms()) {
-                ResponseEntity<DefaultResponse<Program>> response = programService.deleteWorkout(program.getId(), workout);
+                program.getWorkouts().remove(workout);
+                ResponseEntity<DefaultResponse<Program>> response = programService.update(program.getId(), program);
                 if(!Objects.requireNonNull(response.getBody()).getSuccess()) {
                     System.err.println(response.getBody().getError());
                 }
             }
 
             for (Goal goal : workout.getGoals()) {
-                ResponseEntity<DefaultResponse<Goal>> response = goalService.deleteWorkout(goal.getId(), workout);
+                goal.getWorkouts().remove(workout);
+                ResponseEntity<DefaultResponse<Goal>> response = goalService.update(goal.getId(), goal);
                 if(!Objects.requireNonNull(response.getBody()).getSuccess()) {
                     System.err.println(response.getBody().getError());
                 }
