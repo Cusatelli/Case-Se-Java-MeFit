@@ -47,15 +47,23 @@ public class DefaultResponse<T> {
         return error;
     }
 
-    public static String NOT_FOUND(String modelName, Long id) {
+    public static String NOT_FOUND(String modelName, String id) {
         return "Could not find " + modelName + " with ID: " + id;
+    }
+
+    public static String NOT_FOUND(String modelName, Long id) {
+        return NOT_FOUND(modelName, id.toString());
     }
 
     public static String NO_CONTENT(String modelName) {
         return modelName + " does not contain any content.";
     }
 
-    public static String FOUND(String modelName, Long id) {
+    public static String FOUND(String modelName, String id) {
         return "Found " + modelName + " with ID: " + id;
+    }
+
+    public static String FOUND(String modelName, Long id) {
+        return FOUND(modelName, id.toString());
     }
 }
