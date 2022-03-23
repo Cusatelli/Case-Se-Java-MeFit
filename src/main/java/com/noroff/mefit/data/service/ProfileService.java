@@ -222,6 +222,113 @@ public record ProfileService(
         );
     }
 
+    // TODO: Be able to add multiple sets (applies to all updateXYZ below):
+    public ResponseEntity<DefaultResponse<Profile>> updateSet(Long profileId, Set set) {
+        if(!profileRepository.existsById(profileId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+
+        ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+        Profile savedProfile = profileResponse.getBody().getPayload();
+
+        List<Set> sets = savedProfile.getSets();
+        // if empty => create
+        ResponseEntity<DefaultResponse<Set>> response;
+        if(sets.isEmpty()) {
+            set.getProfiles().add(savedProfile);
+            response = setService.create(set);
+            if(response.getBody() != null && response.getBody().getSuccess()) {
+                sets.add(response.getBody().getPayload());
+                savedProfile.setSets(sets);
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new DefaultResponse<>(profileRepository.save(savedProfile))
+                );
+            }
+        } else {
+            // if exists => update
+            for (Set savedSet : sets) {
+                set.setId(savedSet.getId());
+                set.setProfiles(savedSet.getProfiles());
+                response = setService.update(set.getId(), set);
+                if (!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                    return ResponseEntity.status(HttpStatus.valueOf(response.getBody().getError().getStatus())).body(
+                            new DefaultResponse<>(response.getBody().getError().getStatus(), response.getBody().getError().getMessage())
+                    );
+                }
+                sets.remove(savedSet);
+                sets.add(response.getBody().getPayload());
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new DefaultResponse<>(profileRepository.save(savedProfile))
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
+        );
+    }
+
+    public ResponseEntity<DefaultResponse<Profile>> updateWorkout(Long profileId, Workout workout) {
+        if(!profileRepository.existsById(profileId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+
+        ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+        Profile savedProfile = profileResponse.getBody().getPayload();
+
+        List<Workout> workouts = savedProfile.getWorkouts();
+        // if empty => create
+        ResponseEntity<DefaultResponse<Workout>> response;
+        if(workouts.isEmpty()) {
+            workout.getProfiles().add(savedProfile);
+            response = workoutService.create(workout);
+            if(response.getBody() != null && response.getBody().getSuccess()) {
+                workouts.add(response.getBody().getPayload());
+                savedProfile.setWorkouts(workouts);
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new DefaultResponse<>(profileRepository.save(savedProfile))
+                );
+            }
+        } else {
+            // if exists => update
+            for (Workout savedWorkout : workouts) {
+                workout.setId(savedWorkout.getId());
+                workout.setProfiles(savedWorkout.getProfiles());
+                response = workoutService.update(workout.getId(), workout);
+                if (!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                    return ResponseEntity.status(HttpStatus.valueOf(response.getBody().getError().getStatus())).body(
+                            new DefaultResponse<>(response.getBody().getError().getStatus(), response.getBody().getError().getMessage())
+                    );
+                }
+                workouts.remove(savedWorkout);
+                workouts.add(response.getBody().getPayload());
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new DefaultResponse<>(profileRepository.save(savedProfile))
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
+        );
+    }
+
     public ResponseEntity<DefaultResponse<Void>> delete(Long profileId) {
         if (!profileRepository.existsById(profileId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(

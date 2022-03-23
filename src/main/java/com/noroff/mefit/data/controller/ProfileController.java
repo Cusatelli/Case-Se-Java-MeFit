@@ -33,7 +33,7 @@ public record ProfileController(ProfileService profileService) {
     }
 
     @PatchMapping("/{profileId}/goal")
-    public ResponseEntity<DefaultResponse<Profile>> updateProfileProgram(@PathVariable Long profileId, @RequestBody Goal goal) {
+    public ResponseEntity<DefaultResponse<Profile>> updateProfileGoal(@PathVariable Long profileId, @RequestBody Goal goal) {
         return profileService.updateGoal(profileId, goal);
     }
 
@@ -42,5 +42,15 @@ public record ProfileController(ProfileService profileService) {
         return profileService.updateProgram(profileId, program);
     }
 
-    // TODO: Update => Set, User, Workout
+    @PatchMapping("/{profileId}/set")
+    public ResponseEntity<DefaultResponse<Profile>> updateProfileSet(@PathVariable Long profileId, @RequestBody Set set) {
+        return profileService.updateSet(profileId, set);
+    }
+
+    @PatchMapping("/{profileId}/workout")
+    public ResponseEntity<DefaultResponse<Profile>> updateProfileSet(@PathVariable Long profileId, @RequestBody Workout workout) {
+        return profileService.updateWorkout(profileId, workout);
+    }
+
+    // TODO: Update => User, Workout
 }
