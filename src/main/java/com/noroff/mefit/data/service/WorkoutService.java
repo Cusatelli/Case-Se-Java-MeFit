@@ -46,6 +46,8 @@ public record WorkoutService(
     }
 
     public ResponseEntity<DefaultResponse<Workout>> create(Workout workout) {
+        setRepository.saveAll(workout.getSets());
+
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
                 new DefaultResponse<>(workoutRepository.save(workout))
         );
