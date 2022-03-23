@@ -49,33 +49,24 @@ public record UserService(
         return linkUserProfile(savedUser);
     }
 
+    // TODO: Error handling
     public ResponseEntity<DefaultResponse<User>> linkUserProfile(User user) {
         Profile profile = new Profile();
         profile.setUser(user);
         DefaultResponse<Profile> response = profileService.create(profile).getBody();
 
-        if(response == null) { return RESPONSE_BAD_REQUEST(); }
-        if(!response.getSuccess()) {
-            profileService.delete(response.getPayload().getId());
-            return RESPONSE_BAD_REQUEST();
-        }
+        assert response != null;
+        response = profileService.getById(response.getPayload().getId()).getBody();
+        assert response != null;
+        Profile savedProfile = response.getPayload();
 
-        // TODO: Delete profile if user does not exists or on error
-
-        user.setProfile(response.getPayload());
-        User savedUser = userRepository.save(user);
-        if(!userRepository.existsById(savedUser.getId())) {
-            profileService.delete(response.getPayload().getId());
-        }
+        savedProfile.setUser(user);
+        profileService.update(savedProfile.getId(), savedProfile);
+        user.setProfile(savedProfile);
 
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
-                new DefaultResponse<>(savedUser)
+                new DefaultResponse<>(userRepository.save(user))
         );
-    }
-
-    public ResponseEntity<DefaultResponse<User>> linkUserProfile(Integer userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        return linkUserProfile(user);
     }
 
     public ResponseEntity<DefaultResponse<User>> update(Integer userId, User user) {

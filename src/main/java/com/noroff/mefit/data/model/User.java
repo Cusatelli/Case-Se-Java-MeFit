@@ -42,8 +42,8 @@ public class User {
     @JsonIgnore
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinTable(name = "profile_user",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "profile_id") }
     )
     private Profile profile;
 }
