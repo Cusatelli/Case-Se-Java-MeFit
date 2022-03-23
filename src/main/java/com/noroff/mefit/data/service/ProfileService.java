@@ -116,6 +116,59 @@ public record ProfileService(
         );
     }
 
+    public ResponseEntity<DefaultResponse<Profile>> updateGoal(Long profileId, Goal goal) {
+        if(!profileRepository.existsById(profileId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+
+        ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+            );
+        }
+        Profile savedProfile = profileResponse.getBody().getPayload();
+
+        List<Goal> goals = savedProfile.getGoals();
+        // if empty => create
+        ResponseEntity<DefaultResponse<Goal>> response;
+        if(goals.isEmpty()) {
+            goal.getProfiles().add(savedProfile);
+            response = goalService.create(goal);
+            if(response.getBody() != null && response.getBody().getSuccess()) {
+                goals.add(response.getBody().getPayload());
+                savedProfile.setGoals(goals);
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new DefaultResponse<>(profileRepository.save(savedProfile))
+                );
+            }
+        } else {
+            // if exists => update
+            for (Goal savedGoal : goals) {
+                goal.setId(savedGoal.getId());
+                goal.setProfiles(savedGoal.getProfiles());
+                response = goalService.update(goal.getId(), goal);
+                if (!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                    return ResponseEntity.status(HttpStatus.valueOf(response.getBody().getError().getStatus())).body(
+                            new DefaultResponse<>(response.getBody().getError().getStatus(), response.getBody().getError().getMessage())
+                    );
+                }
+                goals.remove(savedGoal);
+                goals.add(response.getBody().getPayload());
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new DefaultResponse<>(profileRepository.save(savedProfile))
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
+        );
+    }
+
     public ResponseEntity<DefaultResponse<Profile>> updateProgram(Long profileId, Program program) {
         if(!profileRepository.existsById(profileId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
