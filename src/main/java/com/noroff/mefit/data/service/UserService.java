@@ -24,7 +24,7 @@ public record UserService(
         );
     }
 
-    public ResponseEntity<DefaultResponse<User>> getById(Long userId) {
+    public ResponseEntity<DefaultResponse<User>> getById(Integer userId) {
         if (!userRepository.existsById(userId)) { return RESPONSE_NOT_FOUND(userId); }
 
         User user = userRepository.findById(userId).orElse(null);
@@ -49,48 +49,45 @@ public record UserService(
         return linkUserProfile(savedUser);
     }
 
+    // TODO: Error handling
     public ResponseEntity<DefaultResponse<User>> linkUserProfile(User user) {
         Profile profile = new Profile();
         profile.setUser(user);
         DefaultResponse<Profile> response = profileService.create(profile).getBody();
+        if (response == null) { return RESPONSE_BAD_REQUEST(); }
+        if (!response.getSuccess()) { return RESPONSE_NOT_FOUND("Profile", profile.getId()); }
 
-        if(response == null) { return RESPONSE_BAD_REQUEST(); }
-        if(!response.getSuccess()) {
-            profileService.delete(response.getPayload().getId());
-            return RESPONSE_BAD_REQUEST();
-        }
+        response = profileService.getById(response.getPayload().getId()).getBody();
+        if (response == null || !response.getSuccess()) { return RESPONSE_NOT_FOUND("Profile", profile.getId()); }
 
-        // TODO: Delete profile if user does not exists or on error
+        Profile savedProfile = response.getPayload();
+        if(savedProfile == null) { return RESPONSE_BAD_REQUEST(); }
 
-        user.setProfile(response.getPayload());
-        User savedUser = userRepository.save(user);
-        if(!userRepository.existsById(savedUser.getId())) {
-            profileService.delete(response.getPayload().getId());
-        }
+        savedProfile.setUser(user);
+        response = profileService.update(savedProfile.getId(), savedProfile).getBody();
+        if (response == null) { return RESPONSE_BAD_REQUEST(); }
+        if (!response.getSuccess()) { return RESPONSE_NOT_FOUND("Profile", profile.getId()); }
 
+        user.setProfile(savedProfile);
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
-                new DefaultResponse<>(savedUser)
+                new DefaultResponse<>(userRepository.save(user))
         );
     }
 
-    public ResponseEntity<DefaultResponse<User>> linkUserProfile(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        return linkUserProfile(user);
-    }
-
-    public ResponseEntity<DefaultResponse<User>> update(Long userId, User user) {
+    public ResponseEntity<DefaultResponse<User>> update(Integer userId, User user) {
         if (!userRepository.existsById(userId)) { return RESPONSE_NOT_FOUND(userId); }
 
         User dbUser = userRepository.findById(userId).orElse(null);
         if(dbUser == null) { return RESPONSE_NO_CONTENT(); }
 
         user.setId(dbUser.getId());
+        user.setProfile(dbUser.getProfile());
         return ResponseEntity.status(HttpStatus.OK).body(
                 new DefaultResponse<>(userRepository.save(user))
         );
     }
 
-    public ResponseEntity<DefaultResponse<User>> delete(Long userId) {
+    public ResponseEntity<DefaultResponse<User>> delete(Integer userId) {
         if (!userRepository.existsById(userId)) {
             return RESPONSE_NOT_FOUND(userId);
         }
@@ -104,7 +101,7 @@ public record UserService(
         return RESPONSE_NO_CONTENT();
     }
 
-    public ResponseEntity<DefaultResponse<User>> deleteAll(Long userId) {
+    public ResponseEntity<DefaultResponse<User>> deleteAll(Integer userId) {
         if (!userRepository.existsById(userId)) { return RESPONSE_NOT_FOUND(userId); }
 
         User user = userRepository.findById(userId).orElse(null);
@@ -126,15 +123,21 @@ public record UserService(
         );
     }
 
-    private static ResponseEntity<DefaultResponse<User>> RESPONSE_FOUND(Long userId) {
+    private static ResponseEntity<DefaultResponse<User>> RESPONSE_FOUND(Integer userId) {
         return ResponseEntity.status(HttpStatus.FOUND).body(
                 new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, userId))
         );
     }
 
-    private static ResponseEntity<DefaultResponse<User>> RESPONSE_NOT_FOUND(Long userId) {
+    private static ResponseEntity<DefaultResponse<User>> RESPONSE_NOT_FOUND(Integer userId) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, userId))
+        );
+    }
+
+    private static ResponseEntity<DefaultResponse<User>> RESPONSE_NOT_FOUND(String name, Long id) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), "Could not find " + name + " with ID: " + id)
         );
     }
 

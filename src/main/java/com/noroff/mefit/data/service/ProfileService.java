@@ -28,18 +28,10 @@ public record ProfileService(
     }
 
     public ResponseEntity<DefaultResponse<Profile>> getById(Long profileId) {
-        if (!profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if (!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
         Profile profile = profileRepository.findById(profileId).orElse(null);
-        if(profile == null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
-                    new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
-            );
-        }
+        if(profile == null) { return RESPONSE_NO_CONTENT(); }
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new DefaultResponse<>(profile)
@@ -48,11 +40,7 @@ public record ProfileService(
 
     public ResponseEntity<DefaultResponse<Profile>> create(Profile profile) {
         Profile savedProfile = profileRepository.save(profile);
-        if(!profileRepository.existsById(savedProfile.getId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, savedProfile.getId()))
-            );
-        }
+        if(!profileRepository.existsById(savedProfile.getId())) { return RESPONSE_NOT_FOUND(-1L); }
 
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
                 new DefaultResponse<>(savedProfile)
@@ -60,18 +48,10 @@ public record ProfileService(
     }
 
     public ResponseEntity<DefaultResponse<Profile>> update(Long profileId, Profile profile) {
-        if (!profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if (!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
         Profile dbProfile = profileRepository.findById(profileId).orElse(null);
-        if(dbProfile == null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
-                    new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
-            );
-        }
+        if(dbProfile == null) { return RESPONSE_NO_CONTENT(); }
 
         profile.setId(dbProfile.getId());
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -80,18 +60,10 @@ public record ProfileService(
     }
 
     public ResponseEntity<DefaultResponse<Profile>> updateAddress(Long profileId, Address address) {
-        if(!profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
         ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
-        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) { return RESPONSE_NOT_FOUND(profileId); }
         Profile savedProfile = profileResponse.getBody().getPayload();
 
         if(savedProfile.getAddress() == null) {
@@ -117,18 +89,10 @@ public record ProfileService(
     }
 
     public ResponseEntity<DefaultResponse<Profile>> updateGoal(Long profileId, Goal goal) {
-        if(!profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
         ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
-        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) { return RESPONSE_NOT_FOUND(profileId); }
         Profile savedProfile = profileResponse.getBody().getPayload();
 
         List<Goal> goals = savedProfile.getGoals();
@@ -164,24 +128,14 @@ public record ProfileService(
             );
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
-        );
+        return RESPONSE_BAD_REQUEST();
     }
 
     public ResponseEntity<DefaultResponse<Profile>> updateProgram(Long profileId, Program program) {
-        if(!profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
         ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
-        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) { return RESPONSE_NOT_FOUND(profileId); }
         Profile savedProfile = profileResponse.getBody().getPayload();
 
         List<Program> programs = savedProfile.getPrograms();
@@ -217,25 +171,15 @@ public record ProfileService(
             );
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
-        );
+        return RESPONSE_BAD_REQUEST();
     }
 
     // TODO: Be able to add multiple sets (applies to all updateXYZ below):
     public ResponseEntity<DefaultResponse<Profile>> updateSet(Long profileId, Set set) {
-        if(!profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
         ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
-        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) { return RESPONSE_NOT_FOUND(profileId); }
         Profile savedProfile = profileResponse.getBody().getPayload();
 
         List<Set> sets = savedProfile.getSets();
@@ -271,24 +215,15 @@ public record ProfileService(
             );
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
-        );
+        return RESPONSE_BAD_REQUEST();
     }
 
     public ResponseEntity<DefaultResponse<Profile>> updateWorkout(Long profileId, Workout workout) {
-        if(!profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
         ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
-        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) { return RESPONSE_NOT_FOUND(profileId); }
+
         Profile savedProfile = profileResponse.getBody().getPayload();
 
         List<Workout> workouts = savedProfile.getWorkouts();
@@ -324,43 +259,23 @@ public record ProfileService(
             );
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
-        );
+        return RESPONSE_BAD_REQUEST();
     }
 
-    public ResponseEntity<DefaultResponse<Void>> delete(Long profileId) {
-        if (!profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
-            );
-        }
+    public ResponseEntity<DefaultResponse<Profile>> delete(Long profileId) {
+        if (!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
         profileRepository.deleteById(profileId);
 
-        if(profileRepository.existsById(profileId)) {
-            return ResponseEntity.status(HttpStatus.FOUND).body(
-                    new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, profileId))
-            );
-        }
+        if(profileRepository.existsById(profileId)) { return RESPONSE_FOUND(profileId); }
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
-                new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
-        );
+        return RESPONSE_NO_CONTENT();
     }
 
     public ResponseEntity<DefaultResponse<Profile>> deleteAll(Profile profile) {
-        if (profile == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, null))
-            );
-        }
+        if (profile == null) { return RESPONSE_NOT_FOUND(-1L); }
 
-        if (!profileRepository.existsById(profile.getId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profile.getId()))
-            );
-        }
+        if (!profileRepository.existsById(profile.getId())) { return RESPONSE_NOT_FOUND(profile.getId()); }
 
         Address address = profile.getAddress();
         if(address != null) {
@@ -416,14 +331,31 @@ public record ProfileService(
 
         profileRepository.delete(profile);
 
-        if(profileRepository.existsById(profile.getId())) {
-            return ResponseEntity.status(HttpStatus.FOUND).body(
-                    new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, profile.getId()))
-            );
-        }
+        if(profileRepository.existsById(profile.getId())) { return RESPONSE_FOUND(profile.getId()); }
 
+        return RESPONSE_NO_CONTENT();
+    }
+    private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_NO_CONTENT() {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
                 new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
+        );
+    }
+
+    private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_FOUND(Long profileId) {
+        return ResponseEntity.status(HttpStatus.FOUND).body(
+                new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, profileId))
+        );
+    }
+
+    private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_NOT_FOUND(Long profileId) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
+        );
+    }
+
+    private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_BAD_REQUEST() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
         );
     }
 }

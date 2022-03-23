@@ -1,12 +1,15 @@
 package com.noroff.mefit.data.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -16,9 +19,9 @@ import javax.validation.constraints.Size;
 @Table(name = "user", schema = "public")
 public class User {
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    @NotNull
+    @Column(name = "id", nullable = false)
+    public Integer id;
 
     @Column
     @Size(min = 1, max = 100)
@@ -39,8 +42,8 @@ public class User {
     @JsonIgnore
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinTable(name = "profile_user",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "profile_id") }
     )
     private Profile profile;
 }
