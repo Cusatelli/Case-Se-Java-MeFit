@@ -52,5 +52,5 @@ public record ProfileController(ProfileService profileService) {
         return profileService.updateWorkout(profileId, workout);
     }
 
-    // TODO: Update => User, Workout
+    // Update => User (is located in KeyCloak)
 }
