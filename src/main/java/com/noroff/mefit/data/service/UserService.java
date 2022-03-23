@@ -128,13 +128,13 @@ public record UserService(
 
     private static ResponseEntity<DefaultResponse<User>> RESPONSE_FOUND(String userId) {
         return ResponseEntity.status(HttpStatus.FOUND).body(
-                new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, Long.valueOf(userId)))
+                new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, userId))
         );
     }
 
     private static ResponseEntity<DefaultResponse<User>> RESPONSE_NOT_FOUND(String userId) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, Long.valueOf(userId)))
+                new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, userId))
         );
     }
 

@@ -20,9 +20,12 @@ import javax.validation.constraints.Size;
 public class User {
     @Id
     @NotNull
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(name = "id", nullable = false, columnDefinition = "VARCHAR(64)")
+    @Column(
+            updatable = false,
+            name = "id",
+            nullable = false,
+            columnDefinition = "VARCHAR(64)"
+    )
     public String id;
 
     @Column
