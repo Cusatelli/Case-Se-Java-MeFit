@@ -1,10 +1,8 @@
 package com.noroff.mefit.data.service;
 
 import com.noroff.mefit.config.ConfigSettings;
-import com.noroff.mefit.data.model.DefaultResponse;
-import com.noroff.mefit.data.model.Goal;
-import com.noroff.mefit.data.model.Program;
-import com.noroff.mefit.data.model.Workout;
+import com.noroff.mefit.data.model.*;
+import com.noroff.mefit.data.repository.SetRepository;
 import com.noroff.mefit.data.repository.WorkoutRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,7 @@ import java.util.Objects;
 public record WorkoutService(
         WorkoutRepository workoutRepository,
         ProgramService programService,
+        SetRepository setRepository,
         GoalService goalService
 ) {
     private static final String TAG = Workout.class.getSimpleName();
@@ -65,6 +64,8 @@ public record WorkoutService(
                     new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
             );
         }
+
+        setRepository.saveAll(workout.getSets());
 
         workout.setId(dbWorkout.getId());
         return ResponseEntity.status(HttpStatus.OK).body(
