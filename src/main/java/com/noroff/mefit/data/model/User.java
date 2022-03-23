@@ -39,7 +39,6 @@ public class User {
     @Column
     public Boolean admin;
 
-    @JsonIgnore
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinTable(name = "profile_user",
             joinColumns = { @JoinColumn(name = "user_id") },

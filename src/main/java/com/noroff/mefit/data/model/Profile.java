@@ -1,5 +1,6 @@
 package com.noroff.mefit.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,6 +49,7 @@ public class Profile {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Set> sets;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "profile")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private User user;
