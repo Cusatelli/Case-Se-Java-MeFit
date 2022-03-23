@@ -38,6 +38,6 @@ public class Exercise {
     public String videoLink;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "exercise")
+    @OneToMany(mappedBy = "exercise")
     private List<Set> set;
 }

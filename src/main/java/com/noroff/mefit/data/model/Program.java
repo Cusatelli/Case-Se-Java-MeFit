@@ -40,7 +40,6 @@ public class Program {
     )
     private Goal goal;
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "program_workout",
             joinColumns = { @JoinColumn(name = "program_id") },

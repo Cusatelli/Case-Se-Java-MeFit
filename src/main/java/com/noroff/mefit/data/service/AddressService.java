@@ -44,7 +44,7 @@ public record AddressService(AddressRepository addressRepository) {
         );
     }
 
-    public ResponseEntity<DefaultResponse<Address>> update(Address address, Long addressId) {
+    public ResponseEntity<DefaultResponse<Address>> update(Long addressId, Address address) {
         if (!addressRepository.existsById(addressId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, addressId))
@@ -64,7 +64,7 @@ public record AddressService(AddressRepository addressRepository) {
         );
     }
 
-    public ResponseEntity<DefaultResponse<Void>> delete(Long addressId) {
+    public ResponseEntity<DefaultResponse<Address>> delete(Long addressId) {
         if (!addressRepository.existsById(addressId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, addressId))
