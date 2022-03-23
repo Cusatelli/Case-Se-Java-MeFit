@@ -30,7 +30,7 @@ CREATE TABLE public.exercise
 
 CREATE TABLE public.user
 (
-    id VARCHAR NOT NULL UNIQUE,
+    id SERIAL NOT NULL UNIQUE,
     admin BOOLEAN NOT NULL DEFAULT FALSE,
     contributor BOOLEAN NOT NULL DEFAULT FALSE,
     first_name VARCHAR(50) NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE public.goal
 CREATE TABLE public.profile_user
 (
     profile_id BIGINT REFERENCES public.profile,
-    user_id VARCHAR REFERENCES public.user
+    user_id SERIAL REFERENCES public.user
 );
 
 CREATE TABLE public.profile_address
