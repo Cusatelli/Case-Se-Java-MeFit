@@ -18,23 +18,23 @@ public record UserController(UserService userService) {
         return userService.getAll();
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<DefaultResponse<User>> getUserById(@PathVariable Long userId) {
+        return userService.getById(userId);
+    }
+
     @PostMapping
     public ResponseEntity<DefaultResponse<User>> createUser(@RequestBody User user) {
         return userService.create(user);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<User>> getUserById(@PathVariable String userId) {
-        return userService.getById(userId);
-    }
-
     @PatchMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<User>> updateUser(@PathVariable String userId, @RequestBody User user) {
+    public ResponseEntity<DefaultResponse<User>> updateUser(@PathVariable Long userId, @RequestBody User user) {
         return userService.update(userId, user);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<Void>> deleteUser(@PathVariable String userId) {
-        return userService.delete(userId);
+    public ResponseEntity<DefaultResponse<User>> deleteUser(@PathVariable Long userId) {
+        return userService.deleteAll(userId);
     }
 }

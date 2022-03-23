@@ -1,5 +1,8 @@
 package com.noroff.mefit.data.model;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 public class DefaultResponse<T> {
     public static class ErrorResponse {
         private final Integer status;
@@ -47,23 +50,23 @@ public class DefaultResponse<T> {
         return error;
     }
 
-    public static String NOT_FOUND(String modelName, String id) {
+    public static String NOT_FOUND(String modelName, Long id) {
         return "Could not find " + modelName + " with ID: " + id;
     }
 
-    public static String NOT_FOUND(String modelName, Long id) {
-        return NOT_FOUND(modelName, id.toString());
+    public static String NO_CONTENT(String name) {
+        return name + " does not contain any content.";
     }
 
-    public static String NO_CONTENT(String modelName) {
-        return modelName + " does not contain any content.";
+    public static String FOUND(String name, Long id) {
+        return "Found " + name + " with ID: " + id;
     }
 
-    public static String FOUND(String modelName, String id) {
-        return "Found " + modelName + " with ID: " + id;
+    public static String BAD_REQUEST(String name) {
+        return "Bad Request: " + name;
     }
 
-    public static String FOUND(String modelName, Long id) {
-        return FOUND(modelName, id.toString());
+    public static String NOT_IMPLEMENTED(String name) {
+        return "Method [" + name + "] is not implemented yet.";
     }
 }
