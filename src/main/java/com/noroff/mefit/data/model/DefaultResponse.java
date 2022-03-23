@@ -54,15 +54,19 @@ public class DefaultResponse<T> {
         return "Could not find " + modelName + " with ID: " + id;
     }
 
-    public static String NO_CONTENT(String modelName) {
-        return modelName + " does not contain any content.";
+    public static String NO_CONTENT(String name) {
+        return name + " does not contain any content.";
     }
 
-    public static String FOUND(String modelName, Long id) {
-        return "Found " + modelName + " with ID: " + id;
+    public static String FOUND(String name, Long id) {
+        return "Found " + name + " with ID: " + id;
     }
 
-    public static String BAD_REQUEST(String modelName) {
-        return "Bad Request: " + modelName;
+    public static String BAD_REQUEST(String name) {
+        return "Bad Request: " + name;
+    }
+
+    public static String NOT_IMPLEMENTED(String name) {
+        return "Method [" + name + "] is not implemented yet.";
     }
 }
