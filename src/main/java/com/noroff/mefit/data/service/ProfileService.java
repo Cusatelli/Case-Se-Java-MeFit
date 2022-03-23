@@ -132,25 +132,41 @@ public record ProfileService(
         Profile savedProfile = profileResponse.getBody().getPayload();
 
         List<Program> programs = savedProfile.getPrograms();
-        for (Program savedProgram : programs) {
-            // if exists => update
-            program.setId(savedProgram.getId());
-            program.setProfiles(savedProgram.getProfiles());
-            ResponseEntity<DefaultResponse<Program>> response = programService.update(program.getId(), program);
-            if (!Objects.requireNonNull(response.getBody()).getSuccess()) {
-                return ResponseEntity.status(HttpStatus.valueOf(response.getBody().getError().getStatus())).body(
-                        new DefaultResponse<>(response.getBody().getError().getStatus(), response.getBody().getError().getMessage())
+        // if empty => create
+        ResponseEntity<DefaultResponse<Program>> response;
+        if(programs.isEmpty()) {
+            program.getProfiles().add(savedProfile);
+            response = programService.create(program);
+            if(response.getBody() != null && response.getBody().getSuccess()) {
+                programs.add(response.getBody().getPayload());
+                savedProfile.setPrograms(programs);
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new DefaultResponse<>(profileRepository.save(savedProfile))
                 );
             }
-            programs.remove(savedProgram);
-            programs.add(response.getBody().getPayload());
+        } else {
+            // if exists => update
+            for (Program savedProgram : programs) {
+                program.setId(savedProgram.getId());
+                program.setProfiles(savedProgram.getProfiles());
+                response = programService.update(program.getId(), program);
+                if (!Objects.requireNonNull(response.getBody()).getSuccess()) {
+                    return ResponseEntity.status(HttpStatus.valueOf(response.getBody().getError().getStatus())).body(
+                            new DefaultResponse<>(response.getBody().getError().getStatus(), response.getBody().getError().getMessage())
+                    );
+                }
+                programs.remove(savedProgram);
+                programs.add(response.getBody().getPayload());
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new DefaultResponse<>(profileRepository.save(savedProfile))
+            );
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new DefaultResponse<>(profileRepository.save(savedProfile))
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))
         );
-
-        // TODO: else => create
     }
 
     public ResponseEntity<DefaultResponse<Void>> delete(Long profileId) {
