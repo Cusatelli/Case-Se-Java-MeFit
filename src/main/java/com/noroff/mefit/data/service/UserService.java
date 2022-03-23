@@ -24,7 +24,7 @@ public record UserService(
         );
     }
 
-    public ResponseEntity<DefaultResponse<User>> getById(String userId) {
+    public ResponseEntity<DefaultResponse<User>> getById(Integer userId) {
         if (!userRepository.existsById(userId)) { return RESPONSE_NOT_FOUND(userId); }
 
         User user = userRepository.findById(userId).orElse(null);
@@ -73,12 +73,12 @@ public record UserService(
         );
     }
 
-    public ResponseEntity<DefaultResponse<User>> linkUserProfile(String userId) {
+    public ResponseEntity<DefaultResponse<User>> linkUserProfile(Integer userId) {
         User user = userRepository.findById(userId).orElse(null);
         return linkUserProfile(user);
     }
 
-    public ResponseEntity<DefaultResponse<User>> update(String userId, User user) {
+    public ResponseEntity<DefaultResponse<User>> update(Integer userId, User user) {
         if (!userRepository.existsById(userId)) { return RESPONSE_NOT_FOUND(userId); }
 
         User dbUser = userRepository.findById(userId).orElse(null);
@@ -90,7 +90,7 @@ public record UserService(
         );
     }
 
-    public ResponseEntity<DefaultResponse<User>> delete(String userId) {
+    public ResponseEntity<DefaultResponse<User>> delete(Integer userId) {
         if (!userRepository.existsById(userId)) {
             return RESPONSE_NOT_FOUND(userId);
         }
@@ -104,7 +104,7 @@ public record UserService(
         return RESPONSE_NO_CONTENT();
     }
 
-    public ResponseEntity<DefaultResponse<User>> deleteAll(String userId) {
+    public ResponseEntity<DefaultResponse<User>> deleteAll(Integer userId) {
         if (!userRepository.existsById(userId)) { return RESPONSE_NOT_FOUND(userId); }
 
         User user = userRepository.findById(userId).orElse(null);
@@ -126,13 +126,13 @@ public record UserService(
         );
     }
 
-    private static ResponseEntity<DefaultResponse<User>> RESPONSE_FOUND(String userId) {
+    private static ResponseEntity<DefaultResponse<User>> RESPONSE_FOUND(Integer userId) {
         return ResponseEntity.status(HttpStatus.FOUND).body(
                 new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, userId))
         );
     }
 
-    private static ResponseEntity<DefaultResponse<User>> RESPONSE_NOT_FOUND(String userId) {
+    private static ResponseEntity<DefaultResponse<User>> RESPONSE_NOT_FOUND(Integer userId) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, userId))
         );

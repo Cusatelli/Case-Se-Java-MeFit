@@ -352,7 +352,7 @@ public record ProfileService(
     public ResponseEntity<DefaultResponse<Profile>> deleteAll(Profile profile) {
         if (profile == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, null))
+                    new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, -1))
             );
         }
 

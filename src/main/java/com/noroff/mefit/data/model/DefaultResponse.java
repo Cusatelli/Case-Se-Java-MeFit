@@ -50,12 +50,20 @@ public class DefaultResponse<T> {
         return error;
     }
 
-    public static String NOT_FOUND(String modelName, Long id) {
-        return "Could not find " + modelName + " with ID: " + id;
+    public static String NOT_FOUND(String name, Long id) {
+        return "Could not find " + name + " with ID: " + id;
+    }
+
+    public static String NOT_FOUND(String name, Integer id) {
+        return NOT_FOUND(name, id.longValue());
     }
 
     public static String NO_CONTENT(String name) {
         return name + " does not contain any content.";
+    }
+
+    public static String FOUND(String name, Integer id) {
+        return FOUND(name, id.longValue());
     }
 
     public static String FOUND(String name, Long id) {

@@ -20,13 +20,8 @@ import javax.validation.constraints.Size;
 public class User {
     @Id
     @NotNull
-    @Column(
-            updatable = false,
-            name = "id",
-            nullable = false,
-            columnDefinition = "VARCHAR(64)"
-    )
-    public String id;
+    @Column(name = "id", nullable = false)
+    public Integer id;
 
     @Column
     @Size(min = 1, max = 100)
@@ -51,14 +46,4 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "user_id") }
     )
     private Profile profile;
-
-    @JsonGetter("id")
-    public String getId() {
-        return id;
-    }
-
-    @JsonSetter("id")
-    public void setId(String id) {
-        this.id = id;
-    }
 }
