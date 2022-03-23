@@ -54,16 +54,21 @@ public record UserService(
         Profile profile = new Profile();
         profile.setUser(user);
         DefaultResponse<Profile> response = profileService.create(profile).getBody();
+        if (response == null) { return RESPONSE_BAD_REQUEST(); }
+        if (!response.getSuccess()) { return RESPONSE_NOT_FOUND("Profile", profile.getId()); }
 
-        assert response != null;
         response = profileService.getById(response.getPayload().getId()).getBody();
-        assert response != null;
+        if (response == null || !response.getSuccess()) { return RESPONSE_NOT_FOUND("Profile", profile.getId()); }
+
         Profile savedProfile = response.getPayload();
+        if(savedProfile == null) { return RESPONSE_BAD_REQUEST(); }
 
         savedProfile.setUser(user);
-        profileService.update(savedProfile.getId(), savedProfile);
-        user.setProfile(savedProfile);
+        response = profileService.update(savedProfile.getId(), savedProfile).getBody();
+        if (response == null) { return RESPONSE_BAD_REQUEST(); }
+        if (!response.getSuccess()) { return RESPONSE_NOT_FOUND("Profile", profile.getId()); }
 
+        user.setProfile(savedProfile);
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
                 new DefaultResponse<>(userRepository.save(user))
         );
@@ -76,6 +81,7 @@ public record UserService(
         if(dbUser == null) { return RESPONSE_NO_CONTENT(); }
 
         user.setId(dbUser.getId());
+        user.setProfile(dbUser.getProfile());
         return ResponseEntity.status(HttpStatus.OK).body(
                 new DefaultResponse<>(userRepository.save(user))
         );
@@ -126,6 +132,12 @@ public record UserService(
     private static ResponseEntity<DefaultResponse<User>> RESPONSE_NOT_FOUND(Integer userId) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, userId))
+        );
+    }
+
+    private static ResponseEntity<DefaultResponse<User>> RESPONSE_NOT_FOUND(String name, Long id) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), "Could not find " + name + " with ID: " + id)
         );
     }
 
