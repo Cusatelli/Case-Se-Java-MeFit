@@ -18,14 +18,14 @@ public record UserController(UserService userService) {
         return userService.getAll();
     }
 
-    @PostMapping
-    public ResponseEntity<DefaultResponse<User>> createUser(@RequestBody User user) {
-        return userService.create(user);
-    }
-
     @GetMapping("/{userId}")
     public ResponseEntity<DefaultResponse<User>> getUserById(@PathVariable Long userId) {
         return userService.getById(userId);
+    }
+
+    @PostMapping
+    public ResponseEntity<DefaultResponse<User>> createUser(@RequestBody User user) {
+        return userService.create(user);
     }
 
     @PatchMapping("/{userId}")
@@ -34,7 +34,7 @@ public record UserController(UserService userService) {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<DefaultResponse<Void>> deleteUser(@PathVariable Long userId) {
-        return userService.delete(userId);
+    public ResponseEntity<DefaultResponse<User>> deleteUser(@PathVariable Long userId) {
+        return userService.deleteAll(userId);
     }
 }

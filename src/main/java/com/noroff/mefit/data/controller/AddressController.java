@@ -30,11 +30,11 @@ public record AddressController(AddressService addressService) {
 
     @PatchMapping("/{addressId}")
     public ResponseEntity<DefaultResponse<Address>> updateAddress(@PathVariable Long addressId, @RequestBody Address address) {
-        return addressService.update(address, addressId);
+        return addressService.update(addressId, address);
     }
 
     @DeleteMapping("/{addressId}")
-    public ResponseEntity<DefaultResponse<Void>> deleteAddress(@PathVariable Long addressId) {
+    public ResponseEntity<DefaultResponse<Address>> deleteAddress(@PathVariable Long addressId) {
         return addressService.delete(addressId);
     }
 }

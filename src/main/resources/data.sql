@@ -109,6 +109,22 @@ VALUES (
 INSERT INTO public.profile (disabilities, height, medical_conditions, weight)
 VALUES (
            null,
+           178,
+           null,
+           67
+       );
+
+INSERT INTO public.profile (disabilities, height, medical_conditions, weight)
+VALUES (
+           ' ,.',
+           165,
+           'x',
+           58
+       );
+
+INSERT INTO public.profile (disabilities, height, medical_conditions, weight)
+VALUES (
+           null,
            179,
            null,
            87
@@ -174,6 +190,8 @@ VALUES (
 
 INSERT INTO public.profile_user (profile_id, user_id) VALUES (1, 1);
 INSERT INTO public.profile_user (profile_id, user_id) VALUES (2, 2);
+INSERT INTO public.profile_user (profile_id, user_id) VALUES (3, 3);
+INSERT INTO public.profile_user (profile_id, user_id) VALUES (4, 4);
 
 INSERT INTO public.profile_address (profile_id, address_id) VALUES (1, 1);
 INSERT INTO public.profile_address (profile_id, address_id) VALUES (2, 2);

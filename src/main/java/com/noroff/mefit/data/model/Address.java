@@ -48,7 +48,7 @@ public class Address {
     private String country;
 
     @JsonIgnore
-    @ManyToOne(
+    @OneToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST
     )
