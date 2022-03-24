@@ -27,7 +27,7 @@ VALUES (
 
 INSERT INTO public.user (id, admin, contributor, first_name, last_name, password)
 VALUES (
-           -1201027310,
+           1798269124,
            FALSE,
            FALSE,
            'John', 'Doe',
@@ -36,7 +36,7 @@ VALUES (
 
 INSERT INTO public.user (id, admin, contributor, first_name, last_name, password)
 VALUES (
-           -184892904,
+           -1274922453,
            TRUE,
            TRUE,
            'Erica', 'Jones',
@@ -45,7 +45,7 @@ VALUES (
 
 INSERT INTO public.user (id, admin, contributor, first_name, last_name, password)
 VALUES (
-           181551690,
+           -221970900,
            FALSE,
            TRUE,
            'Silver', 'Adamson',
@@ -54,7 +54,7 @@ VALUES (
 
 INSERT INTO public.user (id, admin, contributor, first_name, last_name, password)
 VALUES (
-           -768696498,
+           925179575,
            FALSE,
            FALSE,
            'Alice', 'Shoemaker',
@@ -197,10 +197,10 @@ VALUES (
 -- INSERT INTO public.profile_user (profile_id, user_id) VALUES (3, 'mSiNxUGAjaRfVrhLHnwdAYGWyaeepaQHjyvLxpyPwhMjYkGaPURXjRgtbHjiUutS');
 -- INSERT INTO public.profile_user (profile_id, user_id) VALUES (4, 'DKinvUhpWnDLtaLncPziQRSfkFrmeNwjzUAqnnJzXLdRmeYwdueMdhBwKPeciegN');
 
-INSERT INTO public.profile_user (profile_id, user_id) VALUES (1, -1201027310);
-INSERT INTO public.profile_user (profile_id, user_id) VALUES (2, -184892904);
-INSERT INTO public.profile_user (profile_id, user_id) VALUES (3, 181551690);
-INSERT INTO public.profile_user (profile_id, user_id) VALUES (4, -768696498);
+INSERT INTO public.profile_user (profile_id, user_id) VALUES (1, 1798269124);
+INSERT INTO public.profile_user (profile_id, user_id) VALUES (2, -1274922453);
+INSERT INTO public.profile_user (profile_id, user_id) VALUES (3, -221970900);
+INSERT INTO public.profile_user (profile_id, user_id) VALUES (4, 925179575);
 
 INSERT INTO public.profile_address (profile_id, address_id) VALUES (1, 1);
 INSERT INTO public.profile_address (profile_id, address_id) VALUES (2, 2);
