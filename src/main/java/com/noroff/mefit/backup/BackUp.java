@@ -23,7 +23,7 @@ public class BackUp {
                 "--verbose", "--file", "C:\\Users\\OmaAli\\{data_source}-{timestamp}-dump.sql", "postgres");
         try {
             final Map<String, String> env = pb.environment();
-            env.put("62216221", "admin");
+            env.put("PGPASSWORD", "admin");
             p = pb.start();
             final BufferedReader r = new BufferedReader(
                     new InputStreamReader(p.getErrorStream()));
