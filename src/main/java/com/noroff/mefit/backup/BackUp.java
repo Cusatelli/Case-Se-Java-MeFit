@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class BackUp {
     public static void DumpBackup() {
-        Runtime rt = Runtime.getRuntime();
         Process p;
         ProcessBuilder pb;
         pb = new ProcessBuilder(
