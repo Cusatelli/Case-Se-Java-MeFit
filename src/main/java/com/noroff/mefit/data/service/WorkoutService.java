@@ -1,15 +1,14 @@
 package com.noroff.mefit.data.service;
 
 import com.noroff.mefit.config.ConfigSettings;
-import com.noroff.mefit.data.model.DefaultResponse;
-import com.noroff.mefit.data.model.Goal;
-import com.noroff.mefit.data.model.Program;
-import com.noroff.mefit.data.model.Workout;
+import com.noroff.mefit.data.model.*;
+import com.noroff.mefit.data.repository.SetRepository;
 import com.noroff.mefit.data.repository.WorkoutRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +16,7 @@ import java.util.Objects;
 public record WorkoutService(
         WorkoutRepository workoutRepository,
         ProgramService programService,
+        SetRepository setRepository,
         GoalService goalService
 ) {
     private static final String TAG = Workout.class.getSimpleName();
@@ -47,6 +47,16 @@ public record WorkoutService(
     }
 
     public ResponseEntity<DefaultResponse<Workout>> create(Workout workout) {
+        List<Set> sets = new ArrayList<>();
+        for (Set set : workout.getSets()) {
+            if(set.getId() <= 0) {
+                set = setRepository.save(set);
+            }
+            sets.add(set);
+        }
+        workout.setSets(sets);
+        setRepository.saveAll(workout.getSets());
+
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
                 new DefaultResponse<>(workoutRepository.save(workout))
         );
@@ -65,6 +75,16 @@ public record WorkoutService(
                     new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
             );
         }
+
+        List<Set> sets = new ArrayList<>();
+        for (Set set : workout.getSets()) {
+            if(set.getId() <= 0) {
+                set = setRepository.save(set);
+            }
+            sets.add(set);
+        }
+        workout.setSets(sets);
+        setRepository.saveAll(workout.getSets());
 
         workout.setId(dbWorkout.getId());
         return ResponseEntity.status(HttpStatus.OK).body(
