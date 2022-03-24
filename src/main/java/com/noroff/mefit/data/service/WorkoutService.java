@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +47,14 @@ public record WorkoutService(
     }
 
     public ResponseEntity<DefaultResponse<Workout>> create(Workout workout) {
+        List<Set> sets = new ArrayList<>();
+        for (Set set : workout.getSets()) {
+            if(set.getId() <= 0) {
+                set = setRepository.save(set);
+            }
+            sets.add(set);
+        }
+        workout.setSets(sets);
         setRepository.saveAll(workout.getSets());
 
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
@@ -67,6 +76,14 @@ public record WorkoutService(
             );
         }
 
+        List<Set> sets = new ArrayList<>();
+        for (Set set : workout.getSets()) {
+            if(set.getId() <= 0) {
+                set = setRepository.save(set);
+            }
+            sets.add(set);
+        }
+        workout.setSets(sets);
         setRepository.saveAll(workout.getSets());
 
         workout.setId(dbWorkout.getId());
