@@ -41,7 +41,6 @@ public class BackUp {
     }
 
     public static void RestoreBackup() throws IOException {
-        Runtime r = Runtime.getRuntime();
         Process p;
         ProcessBuilder pb;
         pb = new ProcessBuilder(
