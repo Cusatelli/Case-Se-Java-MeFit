@@ -17,7 +17,17 @@ import java.util.List;
 @Tag(name = "Address")
 @RequestMapping("/api/address")
 @SecurityRequirement(name = "keycloak_implicit")
-@CrossOrigin("${server.cors.application_origin}")
+@CrossOrigin(
+        originPatterns = { "http://*:[*]", "https://*.herokuapp.com/" },
+        methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.HEAD, RequestMethod.OPTIONS },
+        allowedHeaders = { "Origin", "Accept", "X-Requested-With", "Content-Type",
+                "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization" },
+        exposedHeaders = { "Access-Control-Allow-Origin",
+                "Access-Control-Allow-Credentials", "Authorization" },
+        allowCredentials = "true",
+        maxAge = 10
+)
 public class AddressController {
     private final AddressService addressService;
 

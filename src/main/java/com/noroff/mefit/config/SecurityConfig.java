@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().disable()
 
                 // Disable CSRF -- not necessary when there are sessions
-                .csrf().disable()
+//                .csrf().disable()
 
                 // Enable security for http requests
                 .authorizeRequests(authorize -> authorize
@@ -36,9 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/swagger-ui", "/swagger-ui/*", "/swagger-ui/**").permitAll()
 
                          // Add urls here which different users has access to:
-                        .antMatchers("/user").hasAnyRole("group_user")
-                        .antMatchers("/security/contributor").hasAnyRole("group_contributor")
-                        .antMatchers("/security/admin").hasAnyRole("group_admin")
+//                        .antMatchers("/security/admin").hasAnyRole("MeFitt_Admin")
 
                         // All remaining paths require authentication
                         .anyRequest().authenticated())
@@ -58,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                     // Convert Jwt roles claim to GrantedAuthorities
                     JwtGrantedAuthoritiesConverter roleConverter = new JwtGrantedAuthoritiesConverter();
-                    roleConverter.setAuthorityPrefix("role_");
+                    roleConverter.setAuthorityPrefix("MeFitt_");
                     roleConverter.setAuthoritiesClaimName("roles");
 
                     // Jwt -> GrantedAuthorities -> AbstractAuthenticationToken
