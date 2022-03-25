@@ -12,7 +12,13 @@ import java.util.List;
 @RestController
 @Tag(name = "User")
 @RequestMapping("/api/user")
+// Service implementing Repository extending JPARepository
 public record UserController(UserService userService) {
+
+    /**
+     * Get all users through the exposed JPA Repository findAll method.
+     * @return List of characters.
+     */
     @GetMapping
     public ResponseEntity<DefaultResponse<List<User>>> getAllUsers() {
         return userService.getAll();
