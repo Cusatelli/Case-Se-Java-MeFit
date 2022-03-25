@@ -44,26 +44,56 @@ public record ProfileController(ProfileService profileService) {
         return profileService.update(profileId, profile);
     }
 
+    /**
+     * Update an existing Address in profile
+     * @param address to overwrite the current Address in the Profile.
+     * @param profileId related to where we're editing the address.
+     * @return The updated address- and profileID.
+     */
     @PatchMapping("/{profileId}/address")
     public ResponseEntity<DefaultResponse<Profile>> updateProfileAddress(@PathVariable Long profileId, @RequestBody Address address) {
         return profileService.updateAddress(profileId, address);
     }
 
+    /**
+     * Update an existing Goal in profile
+     * @param goal to overwrite the current Goal in the Profile.
+     * @param profileId related to where we're editing the goal.
+     * @return The updated goal- and profileID.
+     */
     @PatchMapping("/{profileId}/goal")
     public ResponseEntity<DefaultResponse<Profile>> updateProfileGoal(@PathVariable Long profileId, @RequestBody Goal goal) {
         return profileService.updateGoal(profileId, goal);
     }
 
+    /**
+     * Update an existing Program in profile
+     * @param program to overwrite the current Program in the Profile.
+     * @param profileId related to where we're editing the program.
+     * @return The updated program- and profileID.
+     */
     @PatchMapping("/{profileId}/program")
     public ResponseEntity<DefaultResponse<Profile>> updateProfileProgram(@PathVariable Long profileId, @RequestBody Program program) {
         return profileService.updateProgram(profileId, program);
     }
 
+    /**
+     * Update an existing Set in profile
+     * @param set to overwrite the current Set in the Profile.
+     * @param profileId related to where we're editing the set.
+     * @return The updated set- and profileID.
+     */
     @PatchMapping("/{profileId}/set")
     public ResponseEntity<DefaultResponse<Profile>> updateProfileSet(@PathVariable Long profileId, @RequestBody Set set) {
         return profileService.updateSet(profileId, set);
     }
 
+    /**
+     * Update an existing Workout in profile
+     * @param workout to overwrite the current Workout in the Profile.
+     * @param profileId related to where we're editing the workout.
+     * @return The updated workout- and profileID.
+     */
     @PatchMapping("/{profileId}/workout")
     public ResponseEntity<DefaultResponse<Profile>> updateProfileSet(@PathVariable Long profileId, @RequestBody Workout workout) {
         return profileService.updateWorkout(profileId, workout);
