@@ -1,8 +1,5 @@
 package com.noroff.mefit.data.model;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 public class DefaultResponse<T> {
     public static class ErrorResponse {
         private final Integer status;
