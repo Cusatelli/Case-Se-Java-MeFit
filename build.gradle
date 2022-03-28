@@ -44,6 +44,9 @@ dependencies {
     implementation 'org.springframework.security:spring-security-oauth2-resource-server'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
 
+    // PreAuthorize
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
     // Tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
