@@ -3,6 +3,7 @@ package com.noroff.mefit.data.service;
 import com.noroff.mefit.config.ConfigSettings;
 import com.noroff.mefit.data.model.*;
 import com.noroff.mefit.data.repository.ProfileRepository;
+import org.hibernate.jdbc.Work;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -270,6 +271,28 @@ public record ProfileService(
         if(profileRepository.existsById(profileId)) { return RESPONSE_FOUND(profileId); }
 
         return RESPONSE_NO_CONTENT();
+    }
+
+    public ResponseEntity<DefaultResponse<Profile>> removeWorkout(Long profileId, Long workoutId) {
+        if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
+
+        ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) { return RESPONSE_NOT_FOUND(profileId); }
+
+        Profile savedProfile = profileResponse.getBody().getPayload();
+        List<Workout> workouts = savedProfile.getWorkouts();
+        Workout workout = workoutService.getById(workoutId).getBody().getPayload();
+        if(workouts.contains(workout)) {
+            workout.getProfiles().remove(savedProfile);
+            workouts.remove(workout);
+            workoutService.update(workout.getId(), workout);
+        }
+
+        savedProfile.setWorkouts(workouts);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(profileRepository.save(savedProfile))
+        );
     }
 
     public ResponseEntity<DefaultResponse<Profile>> deleteAll(Profile profile) {
