@@ -335,6 +335,29 @@ public record ProfileService(
 
         return RESPONSE_NO_CONTENT();
     }
+
+    public ResponseEntity<DefaultResponse<Profile>> removeWorkout(Long profileId, Long workoutId) {
+        if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
+
+        ResponseEntity<DefaultResponse<Profile>> profileResponse = getById(profileId);
+        if(profileResponse.getBody() == null || !profileResponse.getBody().getSuccess()) { return RESPONSE_NOT_FOUND(profileId); }
+
+        Profile savedProfile = profileResponse.getBody().getPayload();
+        List<Workout> workouts = savedProfile.getWorkouts();
+        Workout workout = workoutService.getById(workoutId).getBody().getPayload();
+        if(workouts.contains(workout)) {
+            workout.getProfiles().remove(savedProfile);
+            workouts.remove(workout);
+            workoutService.update(workout.getId(), workout);
+        }
+
+        savedProfile.setWorkouts(workouts);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(profileRepository.save(savedProfile))
+        );
+    }
+
     private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_NO_CONTENT() {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
                 new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))

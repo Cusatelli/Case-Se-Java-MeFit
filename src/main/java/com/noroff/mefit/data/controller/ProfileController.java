@@ -78,5 +78,10 @@ public class ProfileController {
         return profileService.updateWorkout(profileId, workout);
     }
 
+    @DeleteMapping("/{profileId}/workout/{workoutId}")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<DefaultResponse<Profile>> deleteProfileWorkout(@PathVariable Long profileId, @PathVariable Long workoutId) {
+        return profileService.removeWorkout(profileId, workoutId);
+    }
     // Update => User (is located in KeyCloak)
 }
