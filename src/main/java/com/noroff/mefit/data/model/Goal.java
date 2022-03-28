@@ -1,7 +1,6 @@
 package com.noroff.mefit.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +30,6 @@ public class Goal {
     private Boolean achieved;
 
     @OneToOne(mappedBy = "goal")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Program program;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
@@ -39,7 +37,6 @@ public class Goal {
             joinColumns = { @JoinColumn(name = "goal_id") },
             inverseJoinColumns = { @JoinColumn(name = "workout_id") }
     )
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Workout> workouts;
 
     @JsonIgnore
