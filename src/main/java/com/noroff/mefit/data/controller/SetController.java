@@ -23,11 +23,13 @@ import java.util.List;
         RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.HEAD, RequestMethod.OPTIONS },
         allowedHeaders = { "Origin", "Accept", "X-Requested-With", "Content-Type",
                 "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization" },
+
         exposedHeaders = { "Access-Control-Allow-Origin",
                 "Access-Control-Allow-Credentials", "Authorization" },
         allowCredentials = "true",
         maxAge = 10
 )
+
 public class SetController {
     private final SetService setService;
 
