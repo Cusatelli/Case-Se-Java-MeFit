@@ -78,6 +78,12 @@ public class ProfileController {
         return profileService.updateWorkout(profileId, workout);
     }
 
+    @PatchMapping("/{profileId}/workouts")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<DefaultResponse<Profile>> updateProfileSet(@PathVariable Long profileId, @RequestBody List<Workout> workouts) {
+        return profileService.updateWorkouts(profileId, workouts);
+    }
+
     @DeleteMapping("/{profileId}/workout/{workoutId}")
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Profile>> deleteProfileWorkout(@PathVariable Long profileId, @PathVariable Long workoutId) {
