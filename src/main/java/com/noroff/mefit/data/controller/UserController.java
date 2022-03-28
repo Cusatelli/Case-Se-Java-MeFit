@@ -12,6 +12,18 @@ import java.util.List;
 @RestController
 @Tag(name = "User")
 @RequestMapping("/api/user")
+@CrossOrigin(
+        originPatterns = { "http://*:[*]", "https://*.herokuapp.com/" },
+        methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.HEAD,
+                RequestMethod.OPTIONS },
+        allowedHeaders = { "Origin", "Accept", "X-Requested-With", "Content-Type",
+                "Access-Control-Request-Method", "Access-Control-Request-Headers" },
+        exposedHeaders = { "Access-Control-Allow-Origin",
+                "Access-Control-Allow-Credentials", "Authorization" },
+        allowCredentials = "true",
+        maxAge = 10
+)
 public record UserController(UserService userService) {
     @GetMapping
     public ResponseEntity<DefaultResponse<List<User>>> getAllUsers() {
