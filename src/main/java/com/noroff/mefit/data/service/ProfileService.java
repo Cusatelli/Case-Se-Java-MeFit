@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -216,6 +217,39 @@ public record ProfileService(
         }
 
         return RESPONSE_BAD_REQUEST();
+    }
+
+    public ResponseEntity<DefaultResponse<Profile>> updateWorkouts(Long profileId, List<Workout> workouts) {
+        Profile savedProfile = profileRepository.findById(profileId).orElse(null);
+        if(savedProfile == null) { return RESPONSE_NOT_FOUND(profileId); }
+
+        List<Workout> savedWorkouts = new ArrayList<>();
+        for (Workout workout : workouts) {
+            DefaultResponse<Workout> savedWorkout = workoutService.getById(workout.getId()).getBody();
+            if (savedWorkout != null) {
+                savedWorkouts.add(savedWorkout.getPayload());
+            }
+        }
+
+        for (Workout workout : savedWorkouts) {
+            if(!workout.getProfiles().contains(savedProfile)) {
+                workout.getProfiles().add(savedProfile);
+            }
+
+            DefaultResponse<Workout> response = workoutService.update(workout.getId(), workout).getBody();
+            if (!Objects.requireNonNull(response).getSuccess()) {
+                return ResponseEntity.status(HttpStatus.valueOf(response.getError().getStatus())).body(
+                        new DefaultResponse<>(response.getError().getStatus(), response.getError().getMessage())
+                );
+            }
+//            workouts.remove(workout);
+//            workouts.add(response.getPayload());
+        }
+        savedProfile.setWorkouts(savedWorkouts);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(profileRepository.save(savedProfile))
+        );
     }
 
     public ResponseEntity<DefaultResponse<Profile>> updateWorkout(Long profileId, Workout workout) {

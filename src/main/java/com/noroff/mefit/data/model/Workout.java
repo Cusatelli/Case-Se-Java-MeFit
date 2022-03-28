@@ -53,8 +53,8 @@ public class Workout {
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "profile_workout",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "workout_id") }
+            joinColumns = { @JoinColumn(name = "workout_id") },
+            inverseJoinColumns = { @JoinColumn(name = "profile_id") }
     )
     private List<Profile> profiles = new ArrayList<>();
 }
