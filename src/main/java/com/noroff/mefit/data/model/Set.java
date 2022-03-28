@@ -1,7 +1,6 @@
 package com.noroff.mefit.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,12 +29,10 @@ public class Set {
             joinColumns = { @JoinColumn(name = "set_id") },
             inverseJoinColumns = { @JoinColumn(name = "exercise_id") }
     )
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Exercise exercise;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "sets")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Workout> workouts;
 
     @JsonIgnore

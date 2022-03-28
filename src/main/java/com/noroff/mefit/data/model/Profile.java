@@ -1,7 +1,6 @@
 package com.noroff.mefit.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,27 +33,21 @@ public class Profile {
     private String disabilities;
 
     @OneToOne(mappedBy = "profile")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Address address;
 
     @ManyToMany(mappedBy = "profiles")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Goal> goals;
 
     @ManyToMany(mappedBy = "profiles")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Program> programs;
 
     @ManyToMany(mappedBy = "profiles")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Set> sets;
 
     @JsonIgnore
     @OneToOne(mappedBy = "profile")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private User user;
 
     @ManyToMany(mappedBy = "profiles")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Workout> workouts;
 }
