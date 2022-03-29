@@ -21,12 +21,24 @@ public record WorkoutService(
 ) {
     private static final String TAG = Workout.class.getSimpleName();
 
+    /**
+     * Get all workouts through the exposed JPA Repository findAll method.
+     * using reasonable responses
+     * @return List of workouts.
+     */
     public ResponseEntity<DefaultResponse<List<Workout>>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new DefaultResponse<>(workoutRepository.findAll())
         );
     }
 
+    /**
+     * Find a specific Workout from its ID value through the exposed JPA Repository getById() method.
+     * If workout not found return correct response code,
+     * if workout has no content return correct response code
+     * @param workoutId The Long ID to search for in Workout database.
+     * @return The Workout Model found by getById() method.
+     */
     public ResponseEntity<DefaultResponse<Workout>> getById(Long workoutId) {
         if (!workoutRepository.existsById(workoutId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -46,6 +58,15 @@ public record WorkoutService(
         );
     }
 
+    /**
+     * Create a new Workout through the exposed JPA Repository save method.
+     * using reasonable responses.
+     * If setId is less than zero or equal to zero,
+     * add a set workout and save.
+     * Then save workout and set to repository.
+     * @param workout Workout Model.
+     * @return The created Workout Model.
+     */
     public ResponseEntity<DefaultResponse<Workout>> create(Workout workout) {
         List<Set> sets = new ArrayList<>();
         for (Set set : workout.getSets()) {
@@ -62,6 +83,16 @@ public record WorkoutService(
         );
     }
 
+    /**
+     * Update an existing Workout in database from its ID value, through the exposed JPA Repository save() method.
+     * If workout not found return correct response code,
+     * if workout has no content return correct response code
+     * If setId doesn't exist add set,
+     * then add workout and save.
+     * @param workout New Workout Model to overwrite the current Workout in database.
+     * @param workoutId ID to overwrite in database.
+     * @return The updated Workout Model.
+     */
     public ResponseEntity<DefaultResponse<Workout>> update(Long workoutId, Workout workout) {
         if (!workoutRepository.existsById(workoutId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -92,6 +123,14 @@ public record WorkoutService(
         );
     }
 
+    /**
+     * Delete a workout in database from ID input value, through exposed JPA Repository deleteById().
+     * If workout not found return correct response code,
+     * if workout has no content return correct response code,
+     * Look for program and goal linked to workout and remove,
+     * @param workoutId Workout ID to delete.
+     * @return Response no content. (Successful delete).
+     */
     public ResponseEntity<DefaultResponse<Void>> delete(Long workoutId) {
         if (!workoutRepository.existsById(workoutId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(

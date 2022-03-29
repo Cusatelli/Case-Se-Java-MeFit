@@ -14,12 +14,24 @@ import java.util.List;
 public record ExerciseService(ExerciseRepository exerciseRepository) {
     private static final String TAG = Exercise.class.getSimpleName();
 
+    /**
+     * Get all exercises through the exposed JPA Repository findAll method.
+     * using reasonable responses
+     * @return List of exercises.
+     */
     public ResponseEntity<DefaultResponse<List<Exercise>>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new DefaultResponse<>(exerciseRepository.findAll())
         );
     }
 
+    /**
+     * Find a specific Exercise from its ID value through the exposed JPA Repository getById() method.
+     * If exercise not found return correct response code,
+     * if exercise has no content return correct response code
+     * @param exerciseId The Long ID to search for in Exercise database.
+     * @return The Exercise Model found by getById() method.
+     */
     public ResponseEntity<DefaultResponse<Exercise>> getById(Long exerciseId) {
         if (!exerciseRepository.existsById(exerciseId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -39,12 +51,26 @@ public record ExerciseService(ExerciseRepository exerciseRepository) {
         );
     }
 
+    /**
+     * Create a new Exercise through the exposed JPA Repository save method.
+     * using reasonable responses
+     * @param exercise Exercise Model.
+     * @return The created Exercise Model.
+     */
     public ResponseEntity<DefaultResponse<Exercise>> create(Exercise exercise) {
         return ResponseEntity.status(HttpStatus.CREATED).location(ConfigSettings.HTTP.location(TAG.toLowerCase())).body(
                 new DefaultResponse<>(exerciseRepository.save(exercise))
         );
     }
 
+    /**
+     * Update an existing Exercise in database from its ID value, through the exposed JPA Repository save() method.
+     * If exercise not found return correct response code,
+     * if exercise has no content return correct response code
+     * @param exercise New Exercise Model to overwrite the current Exercise in database.
+     * @param exerciseId ID to overwrite in database.
+     * @return The updated Exercise Model.
+     */
     public ResponseEntity<DefaultResponse<Exercise>> update(Long exerciseId, Exercise exercise) {
         if (!exerciseRepository.existsById(exerciseId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -65,6 +91,13 @@ public record ExerciseService(ExerciseRepository exerciseRepository) {
         );
     }
 
+    /**
+     * Delete an exercise in database from ID input value, through exposed JPA Repository deleteById().
+     * If exercise not found return correct response code,
+     * if exercise has no content return correct response code
+     * @param exerciseId Exercise ID to delete.
+     * @return True if exercise does not exist anymore. (Successful delete).
+     */
     public ResponseEntity<DefaultResponse<Void>> delete(Long exerciseId) {
         if (!exerciseRepository.existsById(exerciseId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(

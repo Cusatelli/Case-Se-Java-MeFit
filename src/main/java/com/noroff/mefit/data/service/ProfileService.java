@@ -22,12 +22,24 @@ public record ProfileService(
 ) {
     private static final String TAG = Profile.class.getSimpleName();
 
+    /**
+     * Get all profiles through the exposed JPA Repository findAll method.
+     * using reasonable responses
+     * @return List of profiles.
+     */
     public ResponseEntity<DefaultResponse<List<Profile>>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new DefaultResponse<>(profileRepository.findAll())
         );
     }
 
+    /**
+     * Find a specific Profile from its ID value through the exposed JPA Repository getById() method.
+     * If profile not found return correct response code,
+     * if profile has no content return correct response code
+     * @param profileId The Long ID to search for in Profile database.
+     * @return The Profile Model found by getById() method.
+     */
     public ResponseEntity<DefaultResponse<Profile>> getById(Long profileId) {
         if (!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
@@ -39,6 +51,13 @@ public record ProfileService(
         );
     }
 
+    /**
+     * Create a new Profile through the exposed JPA Repository save method.
+     * using reasonable responses
+     * if profile has no content return correct response code
+     * @param profile Profile Model.
+     * @return The created Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> create(Profile profile) {
         Profile savedProfile = profileRepository.save(profile);
         if(!profileRepository.existsById(savedProfile.getId())) { return RESPONSE_NOT_FOUND(-1L); }
@@ -48,6 +67,14 @@ public record ProfileService(
         );
     }
 
+    /**
+     * Update a profile Address in database from its ID value, through the exposed JPA Repository save() method.
+     * If profile not found return correct response code,
+     * if profile has no content return correct response code
+     * @param profile New Profile Model to overwrite the current Profile in database.
+     * @param profileId ID to overwrite in database.
+     * @return The updated Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> update(Long profileId, Profile profile) {
         if (!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
@@ -60,6 +87,15 @@ public record ProfileService(
         );
     }
 
+    /**
+     * Update a profile Address in database from its ID value, through the exposed JPA Repository save() method.
+     * If profile not found return correct response code,
+     * if profile has no content return correct response code,
+     * if profile address doesn't exist add address to profile and save
+     * @param address New Profile Model to overwrite the current Profile in database.
+     * @param profileId ID to overwrite in database.
+     * @return The updated Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> updateAddress(Long profileId, Address address) {
         if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
@@ -89,6 +125,16 @@ public record ProfileService(
         );
     }
 
+    /**
+     * Update a profile Goal in database from its ID value, through the exposed JPA Repository save() method.
+     * If profile not found return correct response code,
+     * if profile has no content return correct response code,
+     * if profile goal doesn't exist create goal in profile and save,
+     * and if goal exist, update goal in profile.
+     * @param goal New Profile Model to overwrite the current Profile in database.
+     * @param profileId ID to overwrite in database.
+     * @return The updated Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> updateGoal(Long profileId, Goal goal) {
         if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
@@ -132,6 +178,15 @@ public record ProfileService(
         return RESPONSE_BAD_REQUEST();
     }
 
+    /**
+     * Update a profile Program in database from its ID value, through the exposed JPA Repository save() method.
+     * If profile not found return correct response code,
+     * if profile program doesn't exist create program in profile and save,
+     * and if program exist, update program in profile.
+     * @param program New Profile Model to overwrite the current Profile in database.
+     * @param profileId ID to overwrite in database.
+     * @return The updated Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> updateProgram(Long profileId, Program program) {
         if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
@@ -175,6 +230,15 @@ public record ProfileService(
         return RESPONSE_BAD_REQUEST();
     }
 
+    /**
+     * Update a profile Set in database from its ID value, through the exposed JPA Repository save() method.
+     * If profile not found return correct response code,
+     * if profile set doesn't exist create set in profile and save,
+     * and if set exist, update set in profile.
+     * @param set New Profile Model to overwrite the current Profile in database.
+     * @param profileId ID to overwrite in database.
+     * @return The updated Profile Model.
+     */
     // TODO: Be able to add multiple sets (applies to all updateXYZ below):
     public ResponseEntity<DefaultResponse<Profile>> updateSet(Long profileId, Set set) {
         if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
@@ -219,6 +283,15 @@ public record ProfileService(
         return RESPONSE_BAD_REQUEST();
     }
 
+    /**
+     * Update a list of profile Programs in database from its ID value, through the exposed JPA Repository save() method.
+     * If profile not found return correct response code,
+     * loop through programs, if not exists in profile add
+     * workouts and programs to profile.
+     * @param programs New Profile Model to overwrite the current Profile in database.
+     * @param profileId ID to overwrite in database.
+     * @return The updated Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> updatePrograms(Long profileId, List<Program> programs) {
         Profile savedProfile = profileRepository.findById(profileId).orElse(null);
         if(savedProfile == null) { return RESPONSE_NOT_FOUND(profileId); }
@@ -250,6 +323,15 @@ public record ProfileService(
         );
     }
 
+    /**
+     * Update a list of profile Workouts in database from its ID value, through the exposed JPA Repository save() method.
+     * If profile not found return correct response code,
+     * loop through workouts, if not exists in profile add
+     * workouts to profile.
+     * @param workouts New Profile Model to overwrite the current Profile in database.
+     * @param profileId ID to overwrite in database.
+     * @return The updated Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> updateWorkouts(Long profileId, List<Workout> workouts) {
         Profile savedProfile = profileRepository.findById(profileId).orElse(null);
         if(savedProfile == null) { return RESPONSE_NOT_FOUND(profileId); }
@@ -283,6 +365,16 @@ public record ProfileService(
         );
     }
 
+    /**
+     * Update a profile Workout in database from its ID value, through the exposed JPA Repository save() method.
+     * If profile not found return correct response code,
+     * if profile workout doesn't exist create workout in profile and save,
+     * and if workout exist, update workout in profile.
+     * @param workout New Profile Model to overwrite the current Profile in database.
+     * @param profileId ID to overwrite in database.
+     * @return The updated Profile Model.
+     * all other calls returns bad request.
+     */
     public ResponseEntity<DefaultResponse<Profile>> updateWorkout(Long profileId, Workout workout) {
         if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
@@ -337,6 +429,14 @@ public record ProfileService(
         return RESPONSE_NO_CONTENT();
     }
 
+    /**
+     * Delete everything related to Profile in database such as
+     * workout, set, program, goal and address.
+     * If profile not found return correct response code,
+     * if profile has no content return correct response code
+     * @param profile Profile ID to delete.
+     * @return response no content if no profile exist, (Successful delete).
+     */
     public ResponseEntity<DefaultResponse<Profile>> deleteAll(Profile profile) {
         if (profile == null) { return RESPONSE_NOT_FOUND(-1L); }
 
@@ -401,6 +501,13 @@ public record ProfileService(
         return RESPONSE_NO_CONTENT();
     }
 
+    /**
+     * Remove a workout in database from profile.
+     * if profile not found return correct response code.
+     * @param profileId Profile ID to delete.
+     * @param workoutId New Profile Model to overwrite the current Profile in database.
+     * @return The updated Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> removeWorkout(Long profileId, Long workoutId) {
         if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
@@ -423,6 +530,13 @@ public record ProfileService(
         );
     }
 
+    /**
+     * Remove a program in database from profile.
+     * if profile not found return correct response code.
+     * @param profileId Profile ID to delete.
+     * @param programId New Profile Model to overwrite the current Profile in database.
+     * @return The updated Profile Model.
+     */
     public ResponseEntity<DefaultResponse<Profile>> removeProgram(Long profileId, Long programId) {
         if(!profileRepository.existsById(profileId)) { return RESPONSE_NOT_FOUND(profileId); }
 
@@ -445,24 +559,42 @@ public record ProfileService(
         );
     }
 
+    /**
+     * Response message for profile and status code
+     * @return Human-readable no content message.
+     */
     private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_NO_CONTENT() {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
                 new DefaultResponse<>(HttpStatus.NO_CONTENT.value(), DefaultResponse.NO_CONTENT(TAG))
         );
     }
 
+    /**
+     * Response message for profile and status code
+     * @param profileId Profile ID to find
+     * @return Human-readable found profile message.
+     */
     private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_FOUND(Long profileId) {
         return ResponseEntity.status(HttpStatus.FOUND).body(
                 new DefaultResponse<>(HttpStatus.FOUND.value(), DefaultResponse.FOUND(TAG, profileId))
         );
     }
 
+    /**
+     * Response message for profile and status code
+     * @param profileId to refer to
+     * @return Human-readable not found message.
+     */
     private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_NOT_FOUND(Long profileId) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new DefaultResponse<>(HttpStatus.NOT_FOUND.value(), DefaultResponse.NOT_FOUND(TAG, profileId))
         );
     }
 
+    /**
+     * Response message for profile and status code
+     * @return Human-readable bad request (status code 400) message.
+     */
     private static ResponseEntity<DefaultResponse<Profile>> RESPONSE_BAD_REQUEST() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new DefaultResponse<>(HttpStatus.BAD_REQUEST.value(), DefaultResponse.BAD_REQUEST(TAG))

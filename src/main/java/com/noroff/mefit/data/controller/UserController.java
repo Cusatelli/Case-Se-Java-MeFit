@@ -31,6 +31,10 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+    /**
+     * Get all users through the exposed JPA Repository findAll method.
+     * @return List of characters.
+     */
     @GetMapping
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<List<User>>> getAllUsers() {

@@ -31,18 +31,33 @@ import java.util.List;
 public class WorkoutController {
     private final WorkoutService workoutService;
 
+    /**
+     * Get all workouts through the exposed JPA Repository findAll method.
+     * @return List of characters.
+     */
     @GetMapping
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<List<Workout>>> getAllWorkouts() {
         return this.workoutService.getAll();
     }
 
+    /**
+     * Create a new Workout through the exposed JPA Repository save method.
+     * @param workout Character Model.
+     * @return The created Workout Model.
+     */
     @GetMapping("/{workoutId}")
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Workout>> getWorkoutById(@PathVariable Long workoutId) {
         return this.workoutService.getById(workoutId);
     }
 
+    /**
+     * Update an existing Workout in database from its ID value, through the exposed JPA Repository save() method.
+     * @param workout New Workout Model to overwrite the current Workout in database.
+     * @param workoutId ID to overwrite in database.
+     * @return The updated Workout Model.
+     */
     @PostMapping
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Workout>> createWorkout(@RequestBody Workout workout) {
@@ -55,6 +70,11 @@ public class WorkoutController {
         return this.workoutService.update(workoutId, workout);
     }
 
+    /**
+     * Delete a workout in database from ID input value, through exposed JPA Repository deleteById().
+     * @param workoutId Workout ID to delete.
+     * @return True if workout does not exist anymore. (Successful delete).
+     */
     @DeleteMapping("/{workoutId}")
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Void>> deleteWorkoutById(@PathVariable Long workoutId) {

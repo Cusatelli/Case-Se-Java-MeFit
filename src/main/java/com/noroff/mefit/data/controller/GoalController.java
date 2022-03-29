@@ -31,30 +31,56 @@ import java.util.List;
 public class GoalController {
     private final GoalService goalService;
 
+    /**
+     * Get all goals through the exposed JPA Repository findAll method.
+     * using reasonable responses
+     * @return List of goals.
+     */
     @GetMapping
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<List<Goal>>> getAllGoals() {
         return goalService.getAll();
     }
 
+    /**
+     * Find a specific Goal from its ID value through the exposed JPA Repository getById() method.
+     * @param goalId The Long ID to search for in Goal database.
+     * @return The Character Model found by getById() methody.
+     */
     @GetMapping("/{goalId}")
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Goal>> getGoalById(@PathVariable Long goalId) {
         return goalService.getById(goalId);
     }
 
+    /**
+     * Create a new Goal through the exposed JPA Repository save method.
+     * @param goal Goal Model.
+     * @return The created Goal Model.
+     */
     @PostMapping
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Goal>> createGoal(@RequestBody Goal goal) {
         return goalService.create(goal);
     }
 
+    /**
+     * Update an existing Goal in database from its ID value, through the exposed JPA Repository save() method.
+     * @param goal New Goal Model to overwrite the current Goal in database.
+     * @param goalId ID to overwrite in database.
+     * @return The updated goal Model.
+     */
     @PatchMapping("/{goalId}")
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Goal>> updateGoal(@PathVariable Long goalId, @RequestBody Goal goal) {
         return goalService.update(goalId, goal);
     }
 
+    /**
+     * Delete a goal in database from ID input value, through exposed JPA Repository deleteById().
+     * @param goalId Goal ID to delete.
+     * @return True if goal does not exist anymore. (Successful delete).
+     */
     @DeleteMapping("/{goalId}")
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Void>> deleteGoal(@PathVariable Long goalId) {
