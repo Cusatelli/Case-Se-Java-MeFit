@@ -6,12 +6,7 @@
   <p align="center">
     Noroff Case: Group 1
     <br />
-    <div>
-      <a href="https://java-se-mefit-frontend-develop.herokuapp.com/">View Live Demo</a>
-    </div>
-    <div>
-      <a href="https://case-se-java-mefit.herokuapp.com/swagger-ui/index.html">View API Endpoints</a>
-    </div>
+    <a href="https://case-se-java-mefit.herokuapp.com/swagger-ui/index.html">View API Endpoints</a>
   </p>
 </div>
 
@@ -48,15 +43,6 @@ For a detailed documentation of our design challenges and decisions made from st
 
 ```
 Java            SE 17
-
-React           17.0.2
-  Calendar      3.7.0
-  Dom           17.0.2
-  Hook-Form     7.28.0
-  Router-Dom    6.2.2
-  Scripts       5.0.0
-  
-Web-Vitals      2.1.4
     
 Spring-Boot     2.6.4
   WEB           2.6.4
@@ -75,7 +61,6 @@ Swagger         4.5.0
   OpenAPI       1.6.6
   
 KeyCloak        16.1.1
-  KeyCloak-JS   17.0.0
 
 PostgreSQL      42.3.3
   Image         14-alpine
@@ -95,7 +80,6 @@ Apache
 
 <!-- INSTALL -->
 # ⌛&nbsp; Install
-## Back-End
 To get started with this application you will need to set up a few services.
 1. Download [Docker Desktop](https://www.docker.com/products/docker-desktop).
 2. Get the [Official Postgres Docker Image | 14-alpine](https://hub.docker.com/_/postgres).
@@ -145,71 +129,18 @@ If steps 1-3 went smoothly you can now try to run your project again by navigati
 
 Once the application is done compiling & has stopped initializing you can go to [localhost:8081/swagger-ui/index.html](http://localhost:8081/swagger-ui/index.html) and try out the endpoints. They should already contain some dummy data for you to play around with.
 
-Good job! You're all set with the back end!
-
-## Front-End
-To get started with the front-end application you will need to set up a few services.
-1. Download [NodeJS](https://nodejs.org/en/download/)
-   * Choose the latest stable version suitable to your OS.
-2. Thats it! 😄
-
-To make sure that your installation has gone smoothly run:
-```bash
-node -v
-npm -v
-```
-in your terminal (OSX) or command prompt (Windows).
-You should see something like this:
-```bash
-$node -v
-v16.13.2
-
-$npm -v
-8.1.2
-```
-
-Once you have verified that NodeJS has been properly installed you can clone the repository to a destination of your choosing.
-```bash
-# Https
-git clone https://github.com/Pizzarulle/Case-Se-Java-MeFit-Frontend.git
-
-# SSH
-git clone git@github.com:Pizzarulle/Case-Se-Java-MeFit-Frontend.git
-```
-
-When the cloning has completed you can navigate to the root folder inside your terminal (where you can see `package.json` & `package-lock.json` files). 
-We placed ours inside `C:\Users\User\Documents\Github`.
-
-Like so
-```bash
-cd Documents/Github/Case-Se-Java-MeFit-Frontend
-```
-
-Then to install all dependencies run:
-```bash
-npm install
-```
-This might take a while ☕  
-...  
-Once the installation is complete you can simply run your final command:
-```bash
-npm run start
-```
-to start the application front-end! The React start command will automatically open the website at [localhost:3000](http://localhost:3000/) when it is done compiling.
-
-
-Congratulations 🎉 you're all set! 🎈
+Good job! 🎈 You're all set with the back end! 🎉
 
 <!-- USAGE -->
 # 💻 Usage
-Once you have completed the whole back to front-end set up you're free to use the application to your hearts content. But let us show you one way of using it! 😉
+Once you have completed the whole back-end set up you're free to use the application to your hearts content. But let us show you one way of using it! 😉
 
-Have a look at our [User Manual](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/User-Manual) for a detailed use guide on how to do just about anything you want. With the `as-is` application.  
+Have a look at our [API Documentation](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/API-Documentation) if you're curious about our endpoints and how to use them.  
 
 However, if you'd like to look at the inner workings of the application, may we redirect you to our many [Wiki](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki) pages!  
 We have one for
-* [API Documentation](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/API-Documentation) if you're curious about our endpoints and how to use them.
 * [Build & Deploy new PostgreSQL database](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Build-&-Deploy-new-PostgreSQL-database) if you want to build your own app.
+* [User Manual](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/User-Manual) for a detailed use guide on how to do just about anything you want in the front-end.
 * [Requirement Specification](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Requirement-Specification) if you want to see what is done and what is left. Maybe challenge yourself and build the missing requirements? 😉
 * [Design Document](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Design-Document) if you're curious about the challenges we faced and why we made certain design choices.
 
