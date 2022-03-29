@@ -23,23 +23,55 @@
 
 <!-- ABOUT THE PROJECT -->
 # 📚 About the project
-### Section 1
-Nulla eros nulla, tristique sit amet risus id, finibus varius velit. Quisque vehicula congue mauris, nec pulvinar eros fermentum non. 
-Morbi molestie justo vitae justo lobortis sollicitudin non molestie enim. Morbi eu posuere purus, sed pulvinar erat. Mauris sit amet risus velit. 
-In malesuada purus in tortor luctus, id ultrices turpis dignissim. Sed ac viverra dolor, fringilla aliquam elit. 
-Vestibulum feugiat, leo quis blandit interdum, ligula ipsum maximus ex, id dignissim augue quam vel sem. Duis ut sem ligula. 
-Nam scelerisque dui lectus, et bibendum eros rutrum eu.
 
 <img align="left" width="96" src="https://img.icons8.com/color/480/000000/tree-structure.png">
 <h4>Dependencies</h4>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel nisl blandit, convallis mi eget, dapibus ex. 
-Suspendisse ultrices tellus at odio suscipit, ut lacinia tortor consectetur. Donec sed orci malesuada neque pellentesque semper et et nisi. 
-Suspendisse in odio at sem mattis consequat ac a est. Suspendisse potenti.
 
-<img align="left" width="96" src="https://img.icons8.com/color/480/000000/rules-book.png">
-<h4>Requirements</h4>
-Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus id aliquet nibh, dapibus lacinia augue. 
-Fusce tempor erat eget tristique scelerisque. Quisque sit amet eros rhoncus, luctus massa ut, suscipit orci.
+```
+Java            SE 17
+
+React           17.0.2
+  Calendar      3.7.0
+  Dom           17.0.2
+  Hook-Form     7.28.0
+  Router-Dom    6.2.2
+  Scripts       5.0.0
+  
+Web-Vitals      2.1.4
+    
+Spring-Boot     2.6.4
+  WEB           2.6.4
+  TOMCAT        2.6.4
+  JDBC          2.6.2
+  JPA           2.6.2
+  
+Spring-Security 5.6.2
+  OAuth2        5.6.2
+  
+Hibernate
+  Core          5.6.6
+  Annotations   5.1.2
+
+Swagger         4.5.0
+  OpenAPI       1.6.6
+  
+KeyCloak        16.1.1
+  KeyCloak-JS   17.0.0
+
+PostgreSQL      42.3.3
+  Image         14-alpine
+  
+Docker          20.10.12
+
+Lombok          1.18.22
+
+Apache
+  DBCP2         2.9.0
+  CSV           1.9.0
+```
+
+<img align="left" width="46" src="https://img.icons8.com/color/480/000000/rules-book.png">
+<h3>&nbsp; <a href="https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Requirement-Specification">Requirement Specification</a></h3>
 
 <p align="right"><!-- BACK TO TOP -->
   <a href="#top" align="right">🔝</a>
