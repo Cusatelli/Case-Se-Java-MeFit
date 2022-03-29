@@ -28,6 +28,15 @@
 
 For a detailed list of all our requirements & analysis please refer to the [Requirement Specification](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Requirement-Specification) documentation.
 
+<img align="left" width="46" src="https://img.icons8.com/color/480/000000/rules-book.png">
+<h3>&nbsp; <a href="https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/API-Documentation">API Documentation</a></h3>
+
+For a detailed guide on how to access our endpoints throughout the application.
+
+<img align="left" width="46" src="https://img.icons8.com/color/480/000000/rules-book.png">
+<h3>&nbsp; <a href="https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Design-Document">Design Document</a></h3>
+
+For a detailed documentation of our design challenges and decisions made from start to finish.
 
 <img align="left" width="46" src="https://img.icons8.com/color/480/000000/tree-structure.png">
 <h3>&nbsp; Dependencies</h3>
@@ -181,15 +190,23 @@ Once the installation is complete you can simply run your final command:
 ```bash
 npm run start
 ```
-to start the application front-end!
+to start the application front-end! The React start command will automatically open the website at [localhost:3000](http://localhost:3000/) when it is done compiling.
+
 
 Congratulations 🎉 you're all set! 🎈
 
 <!-- USAGE -->
 # 💻 Usage
-```bash
-How to use the repository goes here...
-```
+Once you have completed the whole back to front-end set up you're free to use the application to your hearts content. But let us show you one way of using it! 😉
+
+Have a look at our [User Manual](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/User-Manual) for a detailed use guide on how to do just about anything you want. With the `as-is` application.  
+
+However, if you'd like to look at the inner workings of the application, may we redirect you to our many [Wiki](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki) pages!  
+We have one for
+* [API Documentation](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/API-Documentation) if you're curious about our endpoints and how to use them.
+* [Build & Deploy new PostgreSQL database](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Build-&-Deploy-new-PostgreSQL-database) if you want to build your own app.
+* [Requirement Specification](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Requirement-Specification) if you want to see what is done and what is left. Maybe challenge yourself and build the missing requirements? 😉
+* [Design Document](https://github.com/Cusatelli/Case-Se-Java-MeFit/wiki/Design-Document) if you're curious about the challenges we faced and why we made certain design choices.
 
 <p align="right"><!-- BACK TO TOP -->
   <a href="#top" align="right">🔝</a>
