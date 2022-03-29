@@ -66,6 +66,12 @@ public class ProfileController {
         return profileService.updateProgram(profileId, program);
     }
 
+    @PatchMapping("/{profileId}/programs")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<DefaultResponse<Profile>> updateProfilePrograms(@PathVariable Long profileId, @RequestBody List<Program> programs) {
+        return profileService.updatePrograms(profileId, programs);
+    }
+
     @PatchMapping("/{profileId}/set")
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Profile>> updateProfileSet(@PathVariable Long profileId, @RequestBody Set set) {
@@ -74,13 +80,13 @@ public class ProfileController {
 
     @PatchMapping("/{profileId}/workout")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<DefaultResponse<Profile>> updateProfileSet(@PathVariable Long profileId, @RequestBody Workout workout) {
+    public ResponseEntity<DefaultResponse<Profile>> updateProfileWorkout(@PathVariable Long profileId, @RequestBody Workout workout) {
         return profileService.updateWorkout(profileId, workout);
     }
 
     @PatchMapping("/{profileId}/workouts")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<DefaultResponse<Profile>> updateProfileSet(@PathVariable Long profileId, @RequestBody List<Workout> workouts) {
+    public ResponseEntity<DefaultResponse<Profile>> updateProfileWorkouts(@PathVariable Long profileId, @RequestBody List<Workout> workouts) {
         return profileService.updateWorkouts(profileId, workouts);
     }
 
@@ -88,6 +94,12 @@ public class ProfileController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<DefaultResponse<Profile>> deleteProfileWorkout(@PathVariable Long profileId, @PathVariable Long workoutId) {
         return profileService.removeWorkout(profileId, workoutId);
+    }
+
+    @DeleteMapping("/{profileId}/program/{programId}")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<DefaultResponse<Profile>> deleteProfileProgram(@PathVariable Long profileId, @PathVariable Long programId) {
+        return profileService.removeProgram(profileId, programId);
     }
     // Update => User (is located in KeyCloak)
 }
