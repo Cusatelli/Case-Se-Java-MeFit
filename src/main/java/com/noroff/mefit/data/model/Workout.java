@@ -40,24 +40,21 @@ public class Workout {
             joinColumns = { @JoinColumn(name = "workout_id") },
             inverseJoinColumns = { @JoinColumn(name = "set_id") }
     )
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Set> sets;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "workouts")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Goal> goals;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "workouts")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Program> programs;
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "profile_workout",
-            joinColumns = { @JoinColumn(name = "profile_id") },
-            inverseJoinColumns = { @JoinColumn(name = "workout_id") }
+            joinColumns = { @JoinColumn(name = "workout_id") },
+            inverseJoinColumns = { @JoinColumn(name = "profile_id") }
     )
     private List<Profile> profiles = new ArrayList<>();
 }

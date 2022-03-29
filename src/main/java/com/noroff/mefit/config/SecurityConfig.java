@@ -1,6 +1,7 @@
-package com.noroff.mefit.security;
+package com.noroff.mefit.config;
 
-import org.springframework.context.annotation.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,9 +12,10 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import java.util.Collection;
 import java.util.HashSet;
 
-@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -24,19 +26,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().disable()
 
                 // Disable CSRF -- not necessary when there are sessions
-                .csrf().disable()
+//                .csrf().disable()
 
                 // Enable security for http requests
                 .authorizeRequests(authorize -> authorize
                         // Specify paths where public access is allowed
+                        .antMatchers("/api", "/api/*", "/api/**").permitAll()
                         .antMatchers("/v3/api-docs", "/v3/api-docs/*", "/v3/api-docs/**").permitAll()
                         .antMatchers("/swagger-ui", "/swagger-ui/*", "/swagger-ui/**").permitAll()
 
-                        /*
-                         * Add urls here
-                         */
-                        .antMatchers("/user/**").hasAnyRole("MeFit_User")
-                        .antMatchers("/security/admin").hasAnyRole("MeFit_Admin")
+                         // Add urls here which different users has access to:
+//                        .antMatchers("/security/admin").hasAnyRole("MeFitt_Admin")
 
                         // All remaining paths require authentication
                         .anyRequest().authenticated())
@@ -51,12 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                     // Convert Jwt groups claim to GrantedAuthorities
                     JwtGrantedAuthoritiesConverter groupConverter = new JwtGrantedAuthoritiesConverter();
-                    groupConverter.setAuthorityPrefix("GROUP_");
-                    groupConverter.setAuthoritiesClaimName("groups");
+                    groupConverter.setAuthorityPrefix("group_");
+                    groupConverter.setAuthoritiesClaimName("group");
 
                     // Convert Jwt roles claim to GrantedAuthorities
                     JwtGrantedAuthoritiesConverter roleConverter = new JwtGrantedAuthoritiesConverter();
-                    roleConverter.setAuthorityPrefix("ROLE_");
+                    roleConverter.setAuthorityPrefix("MeFitt_");
                     roleConverter.setAuthoritiesClaimName("roles");
 
                     // Jwt -> GrantedAuthorities -> AbstractAuthenticationToken
@@ -78,9 +78,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         union.addAll(roles);
                         union.addAll(groups);
 
-//                        for (var a : union) {
-//                            logger.warn("JWT Authority: {}", a.getAuthority());
-//                        }
+                        for (var a : union) {
+                            logger.warn("JWT Authority: {}", a.getAuthority());
+                        }
 
                         return union;
                     });
