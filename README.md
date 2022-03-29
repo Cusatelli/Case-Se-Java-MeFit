@@ -6,7 +6,12 @@
   <p align="center">
     Noroff Case: Group 1
     <br />
-    <a href="#">View Demo</a>
+    <div>
+      <a href="https://java-se-mefit-frontend-develop.herokuapp.com/">View Live Demo</a>
+    </div>
+    <div>
+      <a href="https://case-se-java-mefit.herokuapp.com/swagger-ui/index.html">View API Endpoints</a>
+    </div>
   </p>
 </div>
 
