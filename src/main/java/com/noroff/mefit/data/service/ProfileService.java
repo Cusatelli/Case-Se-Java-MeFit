@@ -219,6 +219,37 @@ public record ProfileService(
         return RESPONSE_BAD_REQUEST();
     }
 
+    public ResponseEntity<DefaultResponse<Profile>> updatePrograms(Long profileId, List<Program> programs) {
+        Profile savedProfile = profileRepository.findById(profileId).orElse(null);
+        if(savedProfile == null) { return RESPONSE_NOT_FOUND(profileId); }
+
+        List<Program> savedPrograms = new ArrayList<>();
+        for (Program workout : programs) {
+            DefaultResponse<Program> savedProgram = programService.getById(workout.getId()).getBody();
+            if (savedProgram != null) {
+                savedPrograms.add(savedProgram.getPayload());
+            }
+        }
+
+        for (Program program : savedPrograms) {
+            if(!program.getProfiles().contains(savedProfile)) {
+                program.getProfiles().add(savedProfile);
+            }
+
+            DefaultResponse<Program> response = programService.update(program.getId(), program).getBody();
+            if (!Objects.requireNonNull(response).getSuccess()) {
+                return ResponseEntity.status(HttpStatus.valueOf(response.getError().getStatus())).body(
+                        new DefaultResponse<>(response.getError().getStatus(), response.getError().getMessage())
+                );
+            }
+        }
+        savedProfile.setPrograms(savedPrograms);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new DefaultResponse<>(profileRepository.save(savedProfile))
+        );
+    }
+
     public ResponseEntity<DefaultResponse<Profile>> updateWorkouts(Long profileId, List<Workout> workouts) {
         Profile savedProfile = profileRepository.findById(profileId).orElse(null);
         if(savedProfile == null) { return RESPONSE_NOT_FOUND(profileId); }
