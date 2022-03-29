@@ -85,12 +85,14 @@ Apache
 To get started with this application you will need to set up a few services.
 1. Download [Docker Desktop](https://www.docker.com/products/docker-desktop).
 2. Get the [Official Postgres Docker Image | 14-alpine](https://hub.docker.com/_/postgres).
-    * See the [setup](#setup) section for a detailed installation guide.
-3. Heroku Account.
-4. IDE (We will be using **IntelliJ IDEA Ultimate Edition**).
-5. Java JDK 17
-6. Spring Boot 2.6.4
-7. Gradle  
+    * We will cover this step down below if you are unsure.
+3. Get the [Official KeyCloak Docker Image](https://www.keycloak.org/getting-started/getting-started-docker).
+   * We will cover this step down below if you are unsure.
+4. Heroku Account.
+5. IDE (We will be using **IntelliJ IDEA Ultimate Edition**).
+6. Java JDK 17
+7. Spring Boot 2.6.4
+8. Gradle  
    Maven works too, but this setup will be using Gradle for demonstration purposes.
 
 When you have completed above steps 1-7 you can go ahead and clone this repository.
@@ -110,23 +112,78 @@ You'll notice that it does not run and throws an error.
 This is expected as we have not yet finished setting up our whole project yet.
 
 The next steps will be to initialize our database & keycloak image via Docker containers.
-1. To set up the database run:
+1. To set up the database run:  
    ```
    docker run -d --name postgres -e POSTGRES_PASSWORD=4242 -e POSTGRES_DB=myDB -p 5432:5432 postgres:14-alpine
    ```
    This will install and run our postgres database for us in our Docker Desktop app.
-<br/>
-<br/>
-2. Similarly to run KeyCloak as a docker container, run:
+   <br/>
+2. Similarly to run KeyCloak as a docker container, run:  
    ```
    docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:17.0.1 start-dev
    ```
    This will install and run an instance of keycloak locally on our machine for us to connect to when developing.
+   <br/>
+3. Open Docker Desktop and make sure both containers are up and running (usually symbolized with a green-ish color).
+
+If steps 1-3 went smoothly you can now try to run your project again by navigating to:
+`src > main > java > Main.java` & click `ᐈ Run 'Main'` or by clicking the `ᐈ` icon in your IDE.
+
+Once the application is done compiling & has stopped initializing you can go to [localhost:8081/swagger-ui/index.html](http://localhost:8081/swagger-ui/index.html) and try out the endpoints. They should already contain some dummy data for you to play around with.
+
+Good job! You're all set with the back end!
 
 ## Front-End
+To get started with the front-end application you will need to set up a few services.
+1. Download [NodeJS](https://nodejs.org/en/download/)
+   * Choose the latest stable version suitable to your OS.
+2. Thats it! 😄
+
+To make sure that your installation has gone smoothly run:
 ```bash
-Installation guide goes here...
+node -v
+npm -v
 ```
+in your terminal (OSX) or command prompt (Windows).
+You should see something like this:
+```bash
+$node -v
+v16.13.2
+
+$npm -v
+8.1.2
+```
+
+Once you have verified that NodeJS has been properly installed you can clone the repository to a destination of your choosing.
+```bash
+# Https
+git clone https://github.com/Pizzarulle/Case-Se-Java-MeFit-Frontend.git
+
+# SSH
+git clone git@github.com:Pizzarulle/Case-Se-Java-MeFit-Frontend.git
+```
+
+When the cloning has completed you can navigate to the root folder inside your terminal (where you can see `package.json` & `package-lock.json` files). 
+We placed ours inside `C:\Users\User\Documents\Github`.
+
+Like so
+```bash
+cd Documents/Github/Case-Se-Java-MeFit-Frontend
+```
+
+Then to install all dependencies run:
+```bash
+npm install
+```
+This might take a while ☕  
+...  
+Once the installation is complete you can simply run your final command:
+```bash
+npm run start
+```
+to start the application front-end!
+
+Congratulations 🎉 you're all set! 🎈
 
 <!-- USAGE -->
 # 💻 Usage
