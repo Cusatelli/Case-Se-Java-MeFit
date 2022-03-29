@@ -20,8 +20,8 @@ DROP TABLE IF EXISTS
 CREATE TABLE public.exercise
 (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
-    description VARCHAR(200) NOT NULL DEFAULT (''),
-    image VARCHAR(255),
+    description VARCHAR(500) NOT NULL DEFAULT (''),
+    image VARCHAR(300),
     name VARCHAR(50) NOT NULL,
     target_muscle_group VARCHAR(255),
     vid_link VARCHAR(255),
@@ -51,9 +51,9 @@ CREATE TABLE public.workout
 CREATE TABLE public.address
 (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY,
-    address_line_1 VARCHAR NOT NULL,
-    address_line_2 VARCHAR,
-    address_line_3 VARCHAR,
+    address_line_1 VARCHAR(100) NOT NULL,
+    address_line_2 VARCHAR(100),
+    address_line_3 VARCHAR(100),
     city VARCHAR(70) NOT NULL,
     country VARCHAR(70) NOT NULL,
     postal_code VARCHAR(12) NOT NULL,
