@@ -47,7 +47,7 @@ public class AddressController {
      * Create a new Address through the exposed JPA Repository save method.
      * using reasonable responses
      * @param address Address Model.
-     * @return The created Character Model.
+     * @return The created Address Model.
      */
     @PostMapping
     @PreAuthorize("permitAll()")
